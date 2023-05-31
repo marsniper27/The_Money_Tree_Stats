@@ -13,11 +13,11 @@ export default function HelpSidebar() {
       href: '/help/frequently-asked-questions'
     },
     {
-      name: 'What is Open PRO',
+      name: 'What is DegenPlays',
       href: '/help/what-is-open-pro'
     },
     {
-      name: 'Open PRO plan’s features',
+      name: 'DegenPlays plan’s features',
       href: '/help/open-pro-plans-features'
     },
     {

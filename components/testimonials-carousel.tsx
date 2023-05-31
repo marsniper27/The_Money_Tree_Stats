@@ -32,21 +32,21 @@ export default function TestimonialsCarousel() {
     {
       img: UserImage01,
       alt: 'Testimonial 01',
-      quote: '“ I feel grateful that Open PRO pushed me to expand my horizons and strive to accomplish more, not only in my career but in education as well.“',
+      quote: '“ I feel grateful that DegenPlays pushed me to expand my horizons and strive to accomplish more, not only in my career but in education as well.“',
       name: 'Darya Semenova',
       role: 'Backend Developer'
     },
     {
       img: UserImage02,
       alt: 'Testimonial 02',
-      quote: '“ Not only in my career but in education as well, I feel grateful that Open PRO pushed me to expand my horizons and strive to accomplish more.“',
+      quote: '“ Not only in my career but in education as well, I feel grateful that DegenPlays pushed me to expand my horizons and strive to accomplish more.“',
       name: 'Greg Sebastian',
       role: 'Head of Design'
     },
     {
       img: UserImage03,
       alt: 'Testimonial 03',
-      quote: '“ I feel grateful that Open PRO pushed me to expand my horizons and strive to accomplish more, not only in my career but in education as well.“',
+      quote: '“ I feel grateful that DegenPlays pushed me to expand my horizons and strive to accomplish more, not only in my career but in education as well.“',
       name: 'Dominik Prasad',
       role: 'Backend Lead'
     }
@@ -77,7 +77,7 @@ export default function TestimonialsCarousel() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16" data-aos-id-testimonialcar>
-            <h2 className="h2 mb-4" data-aos="fade-up" data-aos-anchor="[data-aos-id-testimonialcar]">Join the Open PRO team</h2>
+            <h2 className="h2 mb-4" data-aos="fade-up" data-aos-anchor="[data-aos-id-testimonialcar]">Join the DegenPlays team</h2>
             <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200" data-aos-anchor="[data-aos-id-testimonialcar]">Vitae aliquet nec ullamcorper sit amet risus nullam eget felis semper quis lectus nulla at volutpat diam ut venenatis tellus in ornare.</p>
           </div>
 

@@ -21,7 +21,7 @@ export default function Timeline() {
                   <div className="absolute left-0 inline-flex text-sm font-semibold py-1 px-3 text-green-600 bg-green-200 rounded-full">2016</div>
                   <div className="absolute left-0 h-full px-px bg-gray-800 ml-20 self-start transform -translate-x-1/2 translate-y-3" aria-hidden="true"></div>
                   <div className="absolute left-0 w-2 h-2 bg-purple-600 border-4 box-content border-gray-900 rounded-full ml-20 transform -translate-x-1/2" aria-hidden="true"></div>
-                  <h4 className="h4">Open PRO was founded in Milan, Italy</h4>
+                  <h4 className="h4">DegenPlays was founded in Milan, Italy</h4>
                 </div>
                 <p className="text-lg text-gray-400">Pretium lectus quam id leo. Urna et pharetra pharetra massa massa. Adipiscing enim eu neque aliquam vestibulum morbi blandit cursus risus.</p>
               </div>
@@ -35,7 +35,7 @@ export default function Timeline() {
                   <div className="absolute left-0 inline-flex text-sm font-semibold py-1 px-3 text-green-600 bg-green-200 rounded-full">2017</div>
                   <div className="absolute left-0 h-full px-px bg-gray-800 ml-20 self-start transform -translate-x-1/2 translate-y-3" aria-hidden="true"></div>
                   <div className="absolute left-0 w-2 h-2 bg-purple-600 border-4 box-content border-gray-900 rounded-full ml-20 transform -translate-x-1/2" aria-hidden="true"></div>
-                  <h4 className="h4">Launched the first Open PRO Advanced plan</h4>
+                  <h4 className="h4">Launched the first DegenPlays Advanced plan</h4>
                 </div>
                 <p className="text-lg text-gray-400">Pretium lectus quam id leo. Urna et pharetra pharetra massa massa. Adipiscing enim eu neque aliquam vestibulum morbi blandit cursus risus.</p>
               </div>

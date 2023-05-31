@@ -6,7 +6,7 @@ import PostTags from '@/components/post-tags'
 import PostItem from '@/components/post-item'
 
 export const metadata = {
-  title: 'Blog - Open PRO',
+  title: 'Blog - DegenPlays',
   description: 'Page description',
 }
 

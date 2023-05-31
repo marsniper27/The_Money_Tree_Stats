@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'About us - Open PRO',
+  title: 'About us - DegenPlays',
   description: 'Page description',
 }
 
