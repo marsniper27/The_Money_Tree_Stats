@@ -29,7 +29,7 @@ export default function HeroFeatures() {
                 and simple to manage.</p>
           </div>
           {/* Image */}
-          <Image className="mx-auto" src={HeroImage} width={768} height={432} alt="Hero" priority data-aos="fade-up" data-aos-delay="400" />
+          <Image className="mx-auto" src={`@/images/hero-image-01.jpg`} width={768} height={432} alt="Hero" priority data-aos="fade-up" data-aos-delay="400" />
         </div>
 
       </div>
