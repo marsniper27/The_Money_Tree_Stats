@@ -15,10 +15,10 @@ export default function Features() {
     <>
       <Hero />
       <Stats />
-      <Zigzag />
+      {/* <Zigzag />
       <Blocks />
       <CaseStudies />
-      <Cta />
+      <Cta /> */}
     </>
   )
 }

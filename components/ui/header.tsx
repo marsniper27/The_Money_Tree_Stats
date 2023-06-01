@@ -1,8 +1,74 @@
+'use client'
+
+import React, { useEffect, useState } from 'react';
+import Web3 from 'web3';
+import web3 from '@/components/utils/web3';
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import Link from 'next/link'
 import Dropdown from '@/components/utils/dropdown'
 import MobileMenu from './mobile-menu'
 
 export default function Header() {
+  const [accounts, setAccounts] = useState<string[]>([]);
+  const [selectedWallet, setSelectedWallet] = useState('');
+
+  const connectWallet = async (wallet: string) => {
+    try {
+      let provider;
+      if (wallet === 'metamask') {
+        // Connect using MetaMask provider
+        await window.ethereum.request({ method: 'eth_requestAccounts' });
+        provider = window.ethereum;
+      } else if (wallet === 'walletconnect') {
+        // Connect using WalletConnect
+        const connector = new WalletConnectConnector({ rpc: { 1: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID' } });
+        await connector.activate();
+        provider = connector.provider;
+      }
+
+      if (provider) {
+        const web3Instance = new Web3(provider);
+        const updatedAccounts = await web3Instance.eth.getAccounts();
+        setAccounts(updatedAccounts);
+      }
+    } catch (error) {
+      console.error('Error connecting to wallet:', error);
+    }
+  };
+
+  const disconnectWallet = async () => {
+    try {
+      if (selectedWallet === 'metamask') {
+        // Disconnect from MetaMask provider by resetting the current provider
+        window.ethereum = null;
+        window.web3 = null;
+      } else if (selectedWallet === 'walletconnect') {
+        // Disconnect from WalletConnect by closing the connection
+        const connector = new WalletConnectConnector({ rpc: { 1: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID' } });
+        await connector.close();
+      }
+  
+      setAccounts([]);
+      setSelectedWallet('');
+    } catch (error) {
+      console.error('Error disconnecting wallet:', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      const accounts = await web3.eth.getAccounts();
+      setAccounts(accounts);
+    };
+
+    fetchAccounts();
+  }, []);
+
+  const handleWalletChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedWallet(event.target.value);
+    connectWallet(event.target.value);
+  };
+
   return (
     <header className="absolute w-full z-30">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -32,19 +98,23 @@ export default function Header() {
                 </Link>
               </li>
               <li>
-                <Link href="/blog" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
+                <Link href="/dashboard" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
                   Dashboard
                 </Link>
+              </li><li>
+                <Link href="/buyback" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
+                  BuyBacks
+                </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link href="/about" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
                   About us
                 </Link>
-              </li>
+              </li> */}
               {/* 1st level: hover */}
-              <Dropdown title="Support">
+              {/* <Dropdown title="Support"> */}
                 {/* 2nd level: hover */}
-                <li>
+                {/* <li>
                   <Link href="/contact" className="font-medium text-sm text-gray-400 hover:text-purple-600 flex py-2 px-4 leading-tight">
                     Contact us
                   </Link>
@@ -59,24 +129,30 @@ export default function Header() {
                     404
                   </Link>
                 </li>
-              </Dropdown>
+              </Dropdown> */}
             </ul>
 
             {/* Desktop sign in links */}
             <ul className="flex grow justify-end flex-wrap items-center">
-              <li>
-                <Link
-                  href="/signin"
-                  className="font-medium text-purple-600 hover:text-gray-200 px-4 py-3 flex items-center transition duration-150 ease-in-out"
-                >
-                  Sign in
-                </Link>
-              </li>
-              <li>
-                <Link href="/signup" className="btn-sm text-white bg-purple-600 hover:bg-purple-700 ml-3">
-                  Sign up
-                </Link>
-              </li>
+              {accounts.length > 0 ? (
+                <div>
+                  <p>Connected account: {accounts[0].substring(0,7)}</p>
+                  <div data-aos="fade-up" data-aos-delay="400">
+                    <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={disconnectWallet}>Disconnect</a>
+                  </div>
+                </div>
+                ) : (
+                <div>
+                  <Dropdown title="Connect Wallet">
+                    <div data-aos="fade-up" data-aos-delay="400">
+                      <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={() => connectWallet("metamask")}>MetaMask</a>
+                    </div>
+                    <div data-aos="fade-up" data-aos-delay="400">
+                      <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={() => connectWallet("walletconnect")}>WalletConnect</a>
+                    </div>
+                  </Dropdown>
+                </div>
+              )}
             </ul>
           </nav>
 

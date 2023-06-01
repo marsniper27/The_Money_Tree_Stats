@@ -24,8 +24,8 @@ export default function HeroFeatures() {
         <div className="relative pt-32 pb-12 md:pt-40 md:pb-20">
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-            <h1 className="h1 mb-4" data-aos="fade-up">How DegenPlays Works</h1>
-            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">We do the work so you dont have too.</p>
+            <h1 className="h1 mb-4" data-aos="fade-up">DegenPlays BuyBacks</h1>
+            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">Ready to sell some of your DegenPlays? Here's the details.</p>
           </div>
           {/* Image */}
           <Image className="mx-auto" src={HeroImage} width={768} height={432} alt="Hero" priority data-aos="fade-up" data-aos-delay="400" />
