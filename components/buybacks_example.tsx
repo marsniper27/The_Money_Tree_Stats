@@ -1,17 +1,18 @@
 'use client'
-import React, { useState } from 'react';
+import React, { useState,ChangeEvent  } from 'react';
 
 export default function Stats() {
   const [poolValue, setPoolValue] = useState(120000);
 
-  const handleInputChange = (event) => {
-    setPoolValue(event.target.value);
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(event.target.value);
+    setPoolValue(value);
   };
 
   const investedValue = (1000 * 1) + (0 * (poolValue / 500000));
   const tokenValue = (investedValue / 1000) / 2;
   const investedValue3rd = (1000 * 1) + (500 * (poolValue / 500000));
-  const tokenValue3rd = (investedValue3rd / 1500) / 2;
+  const tokenValue3rd = (investedValue3rd / (1000 + 500)) / 2;
 
   return (
     <section>
