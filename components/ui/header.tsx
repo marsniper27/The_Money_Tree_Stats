@@ -2,11 +2,13 @@
 
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
-import web3 from '@/components/utils/web3';
+// import web3 from '@/components/utils/web3';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import Link from 'next/link'
 import Dropdown from '@/components/utils/dropdown'
 import MobileMenu from './mobile-menu'
+
+const web3 = new Web3(Web3.givenProvider || 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID');
 
 export default function Header() {
   const [accounts, setAccounts] = useState<string[]>([]);
@@ -17,15 +19,19 @@ export default function Header() {
       let provider;
       if (wallet === 'metamask') {
         // Connect using MetaMask provider
-        await window.ethereum.request({ method: 'eth_requestAccounts' });
-        provider = window.ethereum;
+        if (typeof window !== 'undefined' && typeof (window as any).ethereum !== 'undefined') {
+          await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+          provider = (window as any).ethereum;
+        } else {
+          // Handle case where MetaMask is not installed or not accessible
+        }
       } else if (wallet === 'walletconnect') {
         // Connect using WalletConnect
         const connector = new WalletConnectConnector({ rpc: { 1: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID' } });
         await connector.activate();
-        provider = connector.provider;
+        provider = connector.getProvider();
       }
-
+  
       if (provider) {
         const web3Instance = new Web3(provider);
         const updatedAccounts = await web3Instance.eth.getAccounts();
@@ -40,14 +46,18 @@ export default function Header() {
     try {
       if (selectedWallet === 'metamask') {
         // Disconnect from MetaMask provider by resetting the current provider
-        window.ethereum = null;
-        window.web3 = null;
+        if (typeof window !== 'undefined' && typeof (window as any).ethereum !== 'undefined') {
+          (window as any).ethereum = null;
+          (window as any).web3 = null;
+        } else {
+          // Handle case where MetaMask is not installed or not accessible
+        }
       } else if (selectedWallet === 'walletconnect') {
         // Disconnect from WalletConnect by closing the connection
         const connector = new WalletConnectConnector({ rpc: { 1: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID' } });
         await connector.close();
       }
-  
+      
       setAccounts([]);
       setSelectedWallet('');
     } catch (error) {
