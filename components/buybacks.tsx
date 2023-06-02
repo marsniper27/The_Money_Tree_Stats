@@ -1,3 +1,6 @@
+
+import { useWeb3 } from '@/components/utils/Web3Context';
+
 export default function Stats() {
   return (
     <section>

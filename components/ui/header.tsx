@@ -2,15 +2,16 @@
 
 import React, { useEffect, useState } from 'react';
 import Web3 from 'web3';
-// import web3 from '@/components/utils/web3';
+import { useWeb3 } from '@/components/utils/Web3Context';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import Link from 'next/link'
 import Dropdown from '@/components/utils/dropdown'
 import MobileMenu from './mobile-menu'
 
-const web3 = new Web3(Web3.givenProvider || 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID');
+// const web3 = new Web3(Web3.givenProvider || 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID');
 
 export default function Header() {
+  const web3 = useWeb3();
   const [accounts, setAccounts] = useState<string[]>([]);
   const [selectedWallet, setSelectedWallet] = useState('');
 
@@ -36,6 +37,10 @@ export default function Header() {
         const web3Instance = new Web3(provider);
         const updatedAccounts = await web3Instance.eth.getAccounts();
         setAccounts(updatedAccounts);
+        if (web3) {
+          // Check if web3 is not null before calling setProvider
+          web3.setProvider(provider);
+        }
       }
     } catch (error) {
       console.error('Error connecting to wallet:', error);
@@ -67,12 +72,14 @@ export default function Header() {
 
   useEffect(() => {
     const fetchAccounts = async () => {
-      const accounts = await web3.eth.getAccounts();
-      setAccounts(accounts);
+      if (web3) {
+        const accounts = await web3.eth.getAccounts();
+        setAccounts(accounts);
+      }
     };
-
+  
     fetchAccounts();
-  }, []);
+  }, [web3]);
 
   const handleWalletChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedWallet(event.target.value);

@@ -1,7 +1,31 @@
-import VideoThumb from '@/public/images/hero-image-01.jpg'
-import ModalVideo from '@/components/modal-video'
+'use client'
+import { useState, useEffect} from 'react';
+import { TOKEN_ADDRESS, TOKEN_ABI } from '@/components/utils/config';
+import { useWeb3 } from '@/components/utils/Web3Context';
 
 export default function HeroHome() {
+  const web3 = useWeb3();
+  const [tokenBalance, setTokenBalance] = useState('Loading...');
+  
+  useEffect(() => {
+    if (web3) {
+      const provider = web3.currentProvider;
+      const tokenContract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS.toString());
+      web3.eth.getAccounts().then(accounts => {
+        const account = accounts[0];
+        tokenContract.methods.balanceOf(account).call().then((balance: number) => {
+          setTokenBalance((balance / 10 ** 18).toString());
+        }).catch((error: any) => {
+          console.error('Error fetching token balance:', error);
+          setTokenBalance('N/A');
+        });
+      });
+    }
+    else{
+      setTokenBalance('N/A');
+    }
+  }, [web3]);
+
   return (
     <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
@@ -37,7 +61,7 @@ export default function HeroHome() {
               <path className="stroke-current text-purple-100" d="M26 28h12M26 32h12M26 36h5" strokeWidth="2" strokeLinecap="square" />
             </svg>
             <h4 className="h4 mb-2">DegenPlays Tokens</h4>
-            <p className="text-lg text-gray-400 text-center">XXXX</p><p>DegenPlays</p>
+            <p className="text-lg text-gray-400 text-center">{tokenBalance}</p><p>DegenPlays</p>
           </div>
 
           {/* 2nd item */}
