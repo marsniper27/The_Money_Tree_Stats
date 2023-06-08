@@ -224,3 +224,15 @@ export const TOKEN_ABI: AbiItem[] = process.env.REACT_APP_TOKEN_ABI
         "type": "event"
     }
 ]
+export const supportedChains = process.env.REACT_APP_SUPPORTED_CHAINS ? JSON.parse(process.env.REACT_APP_SUPPORTED_CHAINS): [
+    {
+      "id": 9201,
+      "name": "UNHAPPY FINIS VALORUM",
+      "rpcUrl": "https://rpc.buildbear.io/unhappy-finis-valorum-09f05a00"
+    },
+    {
+      "id": 9202,
+      "name": "SCARY JABBA DESILIJIC TIURE",
+      "rpcUrl": "https://rpc.buildbear.io/scary-jabba-desilijic-tiure-99c10308"
+    }
+  ];
