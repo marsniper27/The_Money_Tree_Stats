@@ -178,6 +178,11 @@ export default function Header() {
               {/* Desktop menu links */}
               <ul className="flex grow justify-end flex-wrap items-center">
                 <li>
+                  <Link href="/" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
+                    Home
+                  </Link>
+                </li>
+                <li>
                   <Link href="/howItWorks" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
                     How It Works
                   </Link>

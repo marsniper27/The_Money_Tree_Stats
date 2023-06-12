@@ -214,6 +214,11 @@ export default function MobileMenu() {
       >
         <ul className="bg-gray-800 px-4 py-2">
           <li>
+            <Link href="/" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
+              Home
+            </Link>
+          </li>
+          <li>
             <Link href="/howItWorks" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
               How It Works
             </Link>
@@ -229,7 +234,7 @@ export default function MobileMenu() {
             </Link>
           </li>
           <li>
-            <Link href="/buyBacks" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
+            <Link href="/buyback" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
               BuyBacks
             </Link>
           </li>

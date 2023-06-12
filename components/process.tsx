@@ -21,7 +21,7 @@ export default function Process() {
                 <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 23h22v18H21z" fill="none" fillRule="evenodd" />
                 <path className="stroke-current text-purple-100" d="M26 28h12M26 32h12M26 36h5" strokeWidth="2" strokeLinecap="square" />
               </svg>
-              <h4 className="h4 mb-2"><span className="text-gray-400">1. </span>Buy DegenPlays</h4>
+              <h4 className="h4 mb-2"><span className="text-gray-400 mx-auto">1. </span>Buy DegenPlays</h4>
               <p className="text-lg text-gray-400 text-center">Purchase DegenPlay tokens On any of our suporrted chains with any of our suported tokens</p>
             </div>
 
@@ -35,7 +35,7 @@ export default function Process() {
                   <path className="stroke-current text-purple-100" strokeWidth="2" strokeLinecap="square" d="M36 32l-4-3-4 3V22h8z" />
                 </g>
               </svg>
-              <h4 className="h4 mb-2"><span className="text-gray-400">2. </span>Watch your Tokens do the work</h4>
+              <h4 className="h4 mb-2"><span className="text-gray-400 text-center mx-auto">2. </span>Watch your Tokens do the work</h4>
               <p className="text-lg text-gray-400 text-center">Watch as the token price goes up as we make degen plays with your invested tokens.</p>
             </div>
 

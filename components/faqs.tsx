@@ -28,7 +28,7 @@ export default function Faqs() {
               <p className="text-lg text-gray-400">We can not guarantee any profits. We are offering away to get in on these highly risky opportunites while risking less of your own funds.</p>
             </li>
             <li>
-              <h4 className="text-xl font-medium mb-2">How do you decide hwo mcuh to put into each play?</h4>
+              <h4 className="text-xl font-medium mb-2">How do you decide hoW muCh to put into each play?</h4>
               <p className="text-lg text-gray-400">Once we decide a play is worth trying we first do a small position to ensure that funds can be retrieved and payouts are working. IF it all goes well we will make a larger play using a portion of the funds based ont he risk and potential payout.</p>
             </li>
             <li>
