@@ -153,6 +153,9 @@ export default function Header() {
 
   const handleCloseModal = () => {
     setShowChainSelection(false);
+    setAccounts([]);
+    setSelectedWallet('');
+    setConnectedChain('');
   };
   
   return (

@@ -2,9 +2,21 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import Web3 from 'web3';
+import { useWeb3 } from '@/components/utils/Web3Context';
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import { supportedChains } from '@/components/utils/config';
+import ChainSelectionPopup from '@/components/utils/ChainSelectionPopup';
+import Dropdown from '@/components/utils/dropdown';
 
 export default function MobileMenu() {
-  const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false)
+  const web3 = useWeb3();
+  const [mobileNavOpen, setMobileNavOpen] = useState<boolean>(false) 
+  const [accounts, setAccounts] = useState<string[]>([]);
+  const [selectedWallet, setSelectedWallet] = useState('');
+  const [connectedChainId, setConnectedChainId] = useState('');
+  const [connectedChain, setConnectedChain] = useState<any>('');
+  const [showChainSelection, setShowChainSelection] = useState(false);
 
   const trigger = useRef<HTMLButtonElement>(null)
   const mobileNav = useRef<HTMLDivElement>(null)
@@ -29,6 +41,147 @@ export default function MobileMenu() {
     document.addEventListener('keydown', keyHandler)
     return () => document.removeEventListener('keydown', keyHandler)
   })
+
+
+
+  const connectWallet = async (wallet: string) => {
+    try {
+      let provider;
+      let chainId:any;
+      if (wallet === 'metamask') {
+        // Connect using MetaMask provider
+        if (typeof window !== 'undefined' && typeof (window as any).ethereum !== 'undefined') {
+          await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
+          provider = (window as any).ethereum;
+          chainId = await provider.request({ method: 'eth_chainId' });
+          setConnectedChainId(chainId);
+        } else {
+          console.error('MetaMask is not installed');
+        }
+      } else if (wallet === 'walletconnect') {
+        // Connect using WalletConnect
+        const connector = new WalletConnectConnector({ rpc: { 1: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID' } });
+        await connector.activate();
+        provider = connector.getProvider();
+      }
+
+      if (provider) {
+        const web3Instance = new Web3(provider);
+        const updatedAccounts = await web3Instance.eth.getAccounts();
+        setAccounts(updatedAccounts);
+        if (web3) {
+          // Check if web3 is not null before calling setProvider
+          web3.setProvider(provider);
+          const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
+          if (isChainSupported) {
+            setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+            // Continue with the application flow
+          } else {
+            // Show supported chains in a popup
+            setShowChainSelection(true);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error connecting to wallet:', error);
+    }
+  };
+
+  const disconnectWallet = async () => {
+    try {
+      if (selectedWallet === 'metamask') {
+        // Disconnect from MetaMask provider by resetting the current provider
+        if (typeof window !== 'undefined' && typeof (window as any).ethereum !== 'undefined') {
+          (window as any).ethereum = null;
+          (window as any).web3 = null;
+        } else {
+          // Handle case where MetaMask is not installed or not accessible
+        }
+      } else if (selectedWallet === 'walletconnect') {
+        // Disconnect from WalletConnect by closing the connection
+        const connector = new WalletConnectConnector({ rpc: { 1: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID' } });
+        await connector.close();
+      }
+
+      setAccounts([]);
+      setSelectedWallet('');
+      setConnectedChain('');
+    } catch (error) {
+      console.error('Error disconnecting wallet:', error);
+    }
+  };
+
+  useEffect(() => {
+    const fetchAccounts = async () => {
+      if (web3) {
+        const accounts = await web3.eth.getAccounts();
+        setAccounts(accounts);
+      }
+    };
+
+    const handleChainChanged = (chainId: string) => {
+      const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
+      if (isChainSupported) {
+        setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(chainId, 16)));
+        // Continue with the application flow
+      } else {
+        // Show supported chains in a popup
+        setShowChainSelection(true);
+      }
+    };
+
+    if ((window as any).ethereum) {
+      (window as any).ethereum.on('chainChanged', handleChainChanged);
+    }
+  
+    return () => {
+      if ((window as any).ethereum) {
+        (window as any).ethereum.removeListener('chainChanged', handleChainChanged);
+      }
+    };
+
+    fetchAccounts();
+  }, [web3]);
+
+  const handleWalletChange =(event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedWallet(event.target.value);
+    connectWallet(event.target.value);
+    const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(connectedChainId, 16));
+    if (isChainSupported) {
+      setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+      // Continue with the application flow
+    } else {
+      // Show supported chains in a popup
+      setShowChainSelection(true);
+    }
+  };
+
+  const handleChainSelection = async (selectedChain: number) => {
+    setShowChainSelection(false);
+    if (selectedChain) {
+      try {
+        await (window as any).ethereum.request({
+          method: 'wallet_switchEthereumChain',
+          params: [{ chainId: "0x" + selectedChain.toString(16) }],
+        });
+        setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+      } catch (error) {
+        console.error('Error switching chain:', error);
+      }
+    } else {
+      setAccounts([]);
+      setSelectedWallet('');
+      setConnectedChain('');
+    }
+  };
+
+  const handleCloseModal = () => {
+    setShowChainSelection(false);
+    setAccounts([]);
+    setSelectedWallet('');
+    setConnectedChain('');
+  };
+  
 
   return (
     <div className="md:hidden">
@@ -85,41 +238,33 @@ export default function MobileMenu() {
               Disclaimer
             </Link>
           </li>
-          {/* <li className="py-2 my-2 border-t border-b border-gray-700">
-            <span className="flex text-gray-300 py-2">Support</span>
-            <ul className="pl-4">
-              <li>
-                <Link href="/contact" className="text-sm flex font-medium text-gray-400 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-                  Contact us
-                </Link>
+          {accounts.length > 0 ? (
+            <div>
+              <p className="md:pt-2">Connected account: {accounts[0].substring(0, 7)}</p>
+              <p>Connected chain: {connectedChain?.name}</p>
+              <div data-aos="fade-up" data-aos-delay="400">
+                <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={disconnectWallet}>Disconnect</a>
+              </div>
+            </div>
+             ) : (
+              <div>
+              <li data-aos="fade-up" data-aos-delay="400">
+                  <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={() => connectWallet("metamask")}>MetaMask</a>
               </li>
-              <li>
-                <Link href="/help/frequently-asked-questions" className="text-sm flex font-medium text-gray-400 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-                  Help center
-                </Link>
+              <li data-aos="fade-up" data-aos-delay="400">
+                <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={() => connectWallet("walletconnect")}>WalletConnect</a>
               </li>
-              <li>
-                <Link href="/404" className="text-sm flex font-medium text-gray-400 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-                  404
-                </Link>
-              </li>
-            </ul>
-          </li>
-          <li>
-            <Link href="/signin" className="flex font-medium w-full text-purple-600 hover:text-gray-200 py-2 justify-center" onClick={() => setMobileNavOpen(false)}>
-              Sign in
-            </Link>
-          </li>
-          <li>
-            <Link
-              href="/signup"
-              className="font-medium w-full inline-flex items-center justify-center border border-transparent px-4 py-2 my-2 rounded-sm text-white bg-purple-600 hover:bg-purple-700 transition duration-150 ease-in-out" onClick={() => setMobileNavOpen(false)}
-            >
-              Sign up
-            </Link>
-          </li> */}
-        </ul>
+            </div>
+             )}
+          </ul>
       </nav>
+      {showChainSelection  && (
+        <ChainSelectionPopup
+          supportedChains={supportedChains}
+          onSelectChain={handleChainSelection}
+          closeModal={handleCloseModal}
+        />
+      )}
     </div>
   )
 }
