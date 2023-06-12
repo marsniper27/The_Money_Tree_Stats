@@ -87,30 +87,7 @@ export default function PricingTables() {
                     </svg>
                     <span>Get a few extra DegenPlays for showing your support.</span>
                   </li>
-                  <li className="flex items-center mb-3">
-                    <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Consectetur adipiscing elit</span>
-                  </li>
-                  <li className="flex items-center mb-3">
-                    <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Excepteur sint occaecat cupidatat</span>
-                  </li>
-                  <li className="flex items-center mb-3">
-                    <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Officia deserunt mollit anim</span>
-                  </li>
-                  <li className="flex items-center mb-3">
-                    <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Placeholder text commonly used</span>
-                  </li>
+                  
                 </ul>
                 <div className="border border-gray-700 p-3 mt-6">
                   <a className="btn-sm text-white bg-purple-600 hover:bg-purple-700 w-full" href="#0">Buy DegenPlays</a>
@@ -126,7 +103,7 @@ export default function PricingTables() {
                     <span className="h2">0.85</span>
                     <span className="font-medium text-gray-400">/DegenPlays</span>
                   </div>
-                  <div className="text-gray-400">Better insights for growing businesses that want more customers.</div>
+                  <div className="text-gray-400">Get In early and get in big.</div>
                 </div>
                 {/* <div className="font-medium mb-3">All features of Essential plus:</div> */}
                 <ul className="text-gray-400 -mb-3 grow">
@@ -134,37 +111,7 @@ export default function PricingTables() {
                     <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
                       <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
                     </svg>
-                    <span>200 placeholder text commonly</span>
-                  </li>
-                  <li className="flex items-center mb-3">
-                    <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Consectetur adipiscing elit</span>
-                  </li>
-                  <li className="flex items-center mb-3">
-                    <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Excepteur sint occaecat cupidatat</span>
-                  </li>
-                  <li className="flex items-center mb-3">
-                    <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Officia deserunt mollit anim</span>
-                  </li>
-                  <li className="flex items-center mb-3">
-                    <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Voluptate velit esse cillum</span>
-                  </li>
-                  <li className="flex items-center mb-3">
-                    <svg className="w-3 h-3 fill-current text-green-500 mr-3 shrink-0" viewBox="0 0 12 12" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M10.28 2.28L3.989 8.575 1.695 6.28A1 1 0 00.28 7.695l3 3a1 1 0 001.414 0l7-7A1 1 0 0010.28 2.28z" />
-                    </svg>
-                    <span>Placeholder text commonly used</span>
+                    <span>Get in with what is likely to be the cheapest price ever.</span>
                   </li>
                 </ul>
                 <div className="border border-gray-700 p-3 mt-6">
