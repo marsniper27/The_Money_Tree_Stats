@@ -18,8 +18,8 @@ const ChainSelectionPopup: React.FC<ChainSelectionPopupProps> = ({
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50">
-      <div className="bg-white shadow-lg rounded-lg px-8 py-6">
-        <h3 className="text-lg font-semibold mb-4">Unsupported Chain</h3>
+      <div className="bg-gray-900 shadow-lg rounded-lg px-8 py-6">
+        <h3 className="text-lg font-semibold mb-4 text-gray-300">Unsupported Chain</h3>
         <p>Please select a supported chain:</p>
         <ul className="mt-4 space-y-2">
           {supportedChains.map((chain) => (

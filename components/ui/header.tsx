@@ -23,12 +23,13 @@ export default function Header() {
   const connectWallet = async (wallet: string) => {
     try {
       let provider;
+      let chainId:any;
       if (wallet === 'metamask') {
         // Connect using MetaMask provider
         if (typeof window !== 'undefined' && typeof (window as any).ethereum !== 'undefined') {
           await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
           provider = (window as any).ethereum;
-          const chainId = await provider.request({ method: 'eth_chainId' });
+          chainId = await provider.request({ method: 'eth_chainId' });
           setConnectedChainId(chainId);
         } else {
           console.error('MetaMask is not installed');
@@ -47,7 +48,7 @@ export default function Header() {
         if (web3) {
           // Check if web3 is not null before calling setProvider
           web3.setProvider(provider);
-          const isChainSupported = supportedChains.some((chain: { id: string }) => chain.id === connectedChainId);
+          const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
           if (isChainSupported) {
             setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
             // Continue with the application flow
@@ -94,12 +95,41 @@ export default function Header() {
       }
     };
 
+    const handleChainChanged = (chainId: string) => {
+      const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
+      if (isChainSupported) {
+        setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(chainId, 16)));
+        // Continue with the application flow
+      } else {
+        // Show supported chains in a popup
+        setShowChainSelection(true);
+      }
+    };
+
+    if ((window as any).ethereum) {
+      (window as any).ethereum.on('chainChanged', handleChainChanged);
+    }
+  
+    return () => {
+      if ((window as any).ethereum) {
+        (window as any).ethereum.removeListener('chainChanged', handleChainChanged);
+      }
+    };
+
     fetchAccounts();
   }, [web3]);
 
-  const handleWalletChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  const handleWalletChange =(event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedWallet(event.target.value);
     connectWallet(event.target.value);
+    const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(connectedChainId, 16));
+    if (isChainSupported) {
+      setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+      // Continue with the application flow
+    } else {
+      // Show supported chains in a popup
+      setShowChainSelection(true);
+    }
   };
 
   const handleChainSelection = async (selectedChain: number) => {
@@ -115,7 +145,9 @@ export default function Header() {
         console.error('Error switching chain:', error);
       }
     } else {
-      // User canceled chain selection, handle accordingly
+      setAccounts([]);
+      setSelectedWallet('');
+      setConnectedChain('');
     }
   };
 
@@ -143,8 +175,8 @@ export default function Header() {
               {/* Desktop menu links */}
               <ul className="flex grow justify-end flex-wrap items-center">
                 <li>
-                  <Link href="/features" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
-                    Features
+                  <Link href="/howItWorks" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
+                    How It Works
                   </Link>
                 </li>
                 <li>
@@ -160,6 +192,11 @@ export default function Header() {
                 <li>
                   <Link href="/buyback" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
                     BuyBacks
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/disclaimer" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
+                    Disclaimer
                   </Link>
                 </li>
                 {/* <li>
@@ -192,7 +229,7 @@ export default function Header() {
               <ul className="flex grow justify-end flex-wrap items-center">
                 {accounts.length > 0 ? (
                   <div>
-                    <p>Connected account: {accounts[0].substring(0, 7)}</p>
+                    <p className="md:pt-2">Connected account: {accounts[0].substring(0, 7)}</p>
                     <p>Connected chain: {connectedChain?.name}</p>
                     <div data-aos="fade-up" data-aos-delay="400">
                       <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={disconnectWallet}>Disconnect</a>

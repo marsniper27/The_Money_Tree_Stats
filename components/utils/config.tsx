@@ -234,5 +234,10 @@ export const supportedChains = process.env.REACT_APP_SUPPORTED_CHAINS ? JSON.par
       "id": 9202,
       "name": "SCARY JABBA DESILIJIC TIURE",
       "rpcUrl": "https://rpc.buildbear.io/scary-jabba-desilijic-tiure-99c10308"
+    },
+    {
+      "id": 80001,
+      "name": "Mumbai",
+      "rpcUrl": "https://matic-mumbai.chainstacklabs.com"
     }
   ];
