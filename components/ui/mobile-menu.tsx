@@ -61,26 +61,31 @@ export default function MobileMenu() {
       >
         <ul className="bg-gray-800 px-4 py-2">
           <li>
-            <Link href="/features" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-              Features
+            <Link href="/howItWorks" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
+              How It Works
             </Link>
           </li>
           <li>
-            <Link href="/pricing" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-              Pricing
+            <Link href="/ico" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
+              ICO
             </Link>
           </li>
           <li>
-            <Link href="/blog" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-              Blog
+            <Link href="/dashboard" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
+              Dashboard
             </Link>
           </li>
           <li>
-            <Link href="/about" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-              About us
+            <Link href="/buyBacks" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
+              BuyBacks
             </Link>
           </li>
-          <li className="py-2 my-2 border-t border-b border-gray-700">
+          <li>
+            <Link href="/disclaimer" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
+              Disclaimer
+            </Link>
+          </li>
+          {/* <li className="py-2 my-2 border-t border-b border-gray-700">
             <span className="flex text-gray-300 py-2">Support</span>
             <ul className="pl-4">
               <li>
@@ -112,7 +117,7 @@ export default function MobileMenu() {
             >
               Sign up
             </Link>
-          </li>
+          </li> */}
         </ul>
       </nav>
     </div>
