@@ -6,8 +6,8 @@ export default function Process() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2 mb-4" data-aos="fade-up">Join in on high rewarding Degen PLays without the High Risk</h2>
-            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">With DegenPlays we handle all the managment of degen plays to help you earn the high rewards possible with less risk.</p>
+            <h2 className="h2 mb-4" data-aos="fade-up">Join in on high rewarding Degen Plays without the High Risk</h2>
+            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">With DegenPlays handles all the managment of degen plays to help you earn the high rewards possible with less risk.</p>
           </div>
 
           {/* Items */}
@@ -36,7 +36,7 @@ export default function Process() {
                 </g>
               </svg>
               <h4 className="h4 mb-2"><span className="text-gray-400 text-center mx-auto">2. </span>Watch your Tokens do the work</h4>
-              <p className="text-lg text-gray-400 text-center">Watch as the token price goes up as we make degen plays with your invested tokens.</p>
+              <p className="text-lg text-gray-400 text-center">Watch as the token price goes up as DegenPlays makes degen plays with your tokens.</p>
             </div>
 
             {/* 3rd item */}
@@ -47,7 +47,7 @@ export default function Process() {
                 <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" />
               </svg>
               <h4 className="h4 mb-2"><span className="text-gray-400">3. </span>Cash out</h4>
-              <p className="text-lg text-gray-400 text-center">Sell your tokens back to us or trade on any exchange with a pair setup. There is no lock in period or trade limits.</p>
+              <p className="text-lg text-gray-400 text-center">Sell your tokens back to DegenPlays or trade on any exchange with a pair setup. There is no lock in period or trade limits.</p>
             </div>
 
           </div>

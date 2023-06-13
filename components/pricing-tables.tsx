@@ -31,7 +31,7 @@ export default function PricingTables() {
                     <span className="h2">1</span>
                     <span className="font-medium text-gray-400">/DegenPlays</span>
                   </div>
-                  <div className="text-gray-400">Get in on degen plays with little investment.</div>
+                  <div className="text-gray-400">Get in on degen plays with little up front cost.</div>
                 </div>
                 {/* <div className="font-medium mb-3">Features include:</div> */}
                 <ul className="text-gray-400 -mb-3 grow">
@@ -77,7 +77,7 @@ export default function PricingTables() {
                     <span className="h2">0.90</span>
                     <span className="font-medium text-gray-400">/DegenPlays</span>
                   </div>
-                  <div className="text-gray-400">Save a bit with a larger investment.</div>
+                  <div className="text-gray-400">Save a bit with a larger share.</div>
                 </div>
                 {/* <div className="font-medium mb-3">All features of Essential plus:</div> */}
                 <ul className="text-gray-400 -mb-3 grow">
@@ -122,7 +122,7 @@ export default function PricingTables() {
           </div>
             <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">Once the intial 500,000 DegenPlays are sold the price will be increased to $1 + current token value until token value equals $5 then sales will be at current value.</p>
         </div>
-            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">Trades on any DEX with a DegenPlays pool will always be possible at current value. We will not be trying to influence the market. Prices here are for new token purchases.</p>
+            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">Trades on any DEX with a DegenPlays pool will always be possible at current value. DegenPlays will not be trying to influence the market. Prices here are for new token purchases.</p>
       </div>
     </section>
   )

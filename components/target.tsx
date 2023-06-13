@@ -9,7 +9,7 @@ export default function Target() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
-            <h2 className="h2" data-aos="fade-up">From small investements to Big rewards let us help grow your fortune.</h2>
+            <h2 className="h2" data-aos="fade-up">From humble beginnings to significant rewards, allow DegenPlays to assist in expanding your wealth.</h2>
           </div>
 
           {/* Items */}
@@ -29,15 +29,15 @@ export default function Target() {
                   <div className="font-architects-daughter text-xl text-purple-600 mb-2" data-aos="fade-left" data-aos-anchor="[data-aos-id-target]">Earn without all the effort</div>
                   <div className="mt-6" data-aos="fade-left" data-aos-delay="200" data-aos-anchor="[data-aos-id-target]">
                     <h4 className="h4 mb-2"><span className="text-purple-600">.</span> For those with low capital</h4>
-                    <p className="text-lg text-gray-400">If you have limited capital but want to benefit from these opportunities DegenPlay is here to help. A small investement can gain large returns.</p>
+                    <p className="text-lg text-gray-400">If you have limited capital but want to benefit from these opportunities DegenPlay is here to help. A small upfront cost can gain large returns.</p>
                   </div>
                   <div className="mt-6" data-aos="fade-left" data-aos-delay="400" data-aos-anchor="[data-aos-id-target]">
                     <h4 className="h4 mb-2"><span className="text-teal-500">.</span> For those who want to diversify</h4>
-                    <p className="text-lg text-gray-400">Finding and vetting these degen plays can be hard we take that work on for you allowing you to be apart of multiple plays at once.</p>
+                    <p className="text-lg text-gray-400">Finding and vetting these degen plays can be hard DegenPlays take that work on for you allowing you to be apart of multiple plays at once.</p>
                   </div>
                   <div className="mt-6" data-aos="fade-left" data-aos-delay="600" data-aos-anchor="[data-aos-id-target]">
                     <h4 className="h4 mb-2"><span className="text-pink-500">.</span> For those with little time</h4>
-                    <p className="text-lg text-gray-400">Monitoring and optimizing your returns in some of these plays can be like a full time job, we handle all of that for you.</p>
+                    <p className="text-lg text-gray-400">Monitoring and optimizing your returns in some of these plays can be like a full time job, DegenPlays handle all of that for you.</p>
                   </div>
                 </div>
               </div>

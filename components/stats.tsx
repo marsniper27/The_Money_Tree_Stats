@@ -36,7 +36,7 @@ export default function Stats() {
             <h1 className="h2 mb-4">Team Fees</h1>
             <p className="text-xl text-gray-400">Team members will be awarded a combined total of 10,000 DegenPlays at mint.</p>
             <p className="text-xl text-gray-400">The team will recieve 10% of the token sales and play profits.</p>
-            <p className="text-xl text-gray-400">We feel due to the amount of work required to manage the degen plays this is a reasonable payment.</p>
+            <p className="text-xl text-gray-400">DegenPlays feel due to the amount of work required to manage the degen plays this is a reasonable payment.</p>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 mb-4">Token Value</h1>
@@ -48,12 +48,12 @@ export default function Stats() {
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 mb-4">Fund utilization</h1>
             <p className="text-xl text-gray-400">For the first 4 months 50% of the pool will be placed into degen plays to allow for the pool to gain value.</p>
-            <p className="text-xl text-gray-400">After 4 months we will target a 70% pool utilization. This leaves funds available for token buybacks or any quick plays.</p>
+            <p className="text-xl text-gray-400">After 4 months DegenPlays will target a 70% pool utilization. This leaves funds available for token buybacks or any quick plays.</p>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 mb-4">Token Buyback</h1>
             <p className="text-xl text-gray-400">You can sell your tokens back to the project at anytime.</p>
-            <p className="text-xl text-gray-400">For the first 4 months buybacks will be at 50% of your investment.</p>
+            <p className="text-xl text-gray-400">For the first 4 months buybacks will be at 50% of your inital purchase value.</p>
             <p className="text-xl text-gray-400">After 4 months buybacks will be at the current token value based on current pool funds.</p>
             <p className="text-xl text-gray-400">Please note that this only counts funds currently in the pool wallet, funds inside of a play are not counted for buyback pricing.</p>
           </div>

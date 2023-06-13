@@ -74,7 +74,7 @@ export default function HeroHome() {
                 <path className="stroke-current text-purple-100" strokeWidth="2" strokeLinecap="square" d="M36 32l-4-3-4 3V22h8z" />
               </g>
             </svg>
-            <h4 className="h4 mb-2"><span className="text-gray-400">2. </span>Investment</h4>
+            <h4 className="h4 mb-2"><span className="text-gray-400">2. </span>Purchased Value</h4>
             <p className="text-lg text-gray-400 text-center">XXXX</p><p> USD</p>
           </div>
 

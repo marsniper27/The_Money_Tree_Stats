@@ -31,7 +31,7 @@ export default function Stats() {
             </div>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-            <h1 className="h2 mb-4">How we calculating your price:</h1>
+            <h1 className="h2 mb-4">How DegenPlays calculate your price:</h1>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 mb-4">DegenPlays owned</h1>
