@@ -2,7 +2,7 @@ import Image from 'next/image'
 
 import HeroImage from '@/public/images/hero-image-01.jpg'
 
-export default function HeroFeatures() {
+export default function HeroBuyBack() {
   return (
     <section className="relative">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">

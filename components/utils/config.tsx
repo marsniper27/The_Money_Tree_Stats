@@ -241,3 +241,25 @@ export const supportedChains = process.env.REACT_APP_SUPPORTED_CHAINS ? JSON.par
       "rpcUrl": "https://matic-mumbai.chainstacklabs.com"
     }
   ];
+
+  
+export const TIERS = process.env.TIERS ? JSON.parse(process.env.TIERS): [
+    {
+      "tierNum": 1,
+      "minAmount": 1,
+      "maxAmount": 1000,
+      "price": 1
+    },
+    {
+        "tierNum": 2,
+        "minAmount": 1001,
+        "maxAmount": 5000,
+        "price": 0.9
+    },
+    {
+        "tierNum": 3,
+        "minAmount": 5001,
+        "maxAmount": 100000000,
+        "price": 0.85
+    },
+  ];

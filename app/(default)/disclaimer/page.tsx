@@ -5,7 +5,7 @@ export const metadata = {
 
 import Hero from '@/components/hero-disclaimer'
 
-export default function HowItWorks() {
+export default function Disclaimer() {
   return (
     <>
       <Hero />

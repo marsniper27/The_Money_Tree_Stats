@@ -7,7 +7,7 @@ export default function Process() {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
             <h2 className="h2 mb-4" data-aos="fade-up">Join in on high rewarding Degen Plays without the High Risk</h2>
-            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">With DegenPlays handles all the managment of degen plays to help you earn the high rewards possible with less risk.</p>
+            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays handles all the managment of degen plays to help you earn the highest rewards possible with less risk.</p>
           </div>
 
           {/* Items */}
@@ -22,7 +22,7 @@ export default function Process() {
                 <path className="stroke-current text-purple-100" d="M26 28h12M26 32h12M26 36h5" strokeWidth="2" strokeLinecap="square" />
               </svg>
               <h4 className="h4 mb-2"><span className="text-gray-400 mx-auto">1. </span>Buy DegenPlays</h4>
-              <p className="text-lg text-gray-400 text-center">Purchase DegenPlay tokens On any of our suporrted chains with any of our suported tokens</p>
+              <p className="text-lg text-gray-400 text-center">Purchase DegenPlay tokens on any of our suporrted chains with any of our suported tokens</p>
             </div>
 
             {/* 2nd item */}
@@ -35,7 +35,7 @@ export default function Process() {
                   <path className="stroke-current text-purple-100" strokeWidth="2" strokeLinecap="square" d="M36 32l-4-3-4 3V22h8z" />
                 </g>
               </svg>
-              <h4 className="h4 mb-2"><span className="text-gray-400 text-center mx-auto">2. </span>Watch your Tokens do the work</h4>
+              <h4 className="h4 mb-2 text-center"><span className="text-gray-400 mx-auto">2. </span>Watch your Tokens do the work</h4>
               <p className="text-lg text-gray-400 text-center">Watch as the token price goes up as DegenPlays makes degen plays with your tokens.</p>
             </div>
 

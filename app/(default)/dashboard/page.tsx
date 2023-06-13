@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Pricing - DegenPlays',
+  title: 'Dashboard - DegenPlays',
   description: 'Page description',
 }
 

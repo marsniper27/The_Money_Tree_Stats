@@ -8,7 +8,7 @@ export default function Stats() {
         <div className="pb-12 md:pb-20">
 
           {/* Section header */}
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">Current DegenPlays Value</h1>
             <p className="text-xl text-gray-400">$XXXX USD</p>
           </div>
@@ -30,33 +30,33 @@ export default function Stats() {
               <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">Current Pool Value</div>
             </div>
           </div>
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8 md:pt-8">
             <h1 className="h2 mb-4">How DegenPlays calculate your price:</h1>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 mb-4">DegenPlays owned</h1>
             <p className="text-xl text-gray-400">XXX DegenPlays</p>
           </div>
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">DegenPlays purchased through us</h1>
             <p className="text-xl text-gray-400">XXX DegenPlays</p>
           </div>
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">DegenPlays purchased through third-party</h1>
             <p className="text-xl text-gray-400">XXX DegenPlays</p>
           </div>
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">Average Price paid</h1>
             <p className="text-xl text-gray-400">$XXX USD</p>
             <p className="text-xl text-gray-400">This is calculated as:</p>
             <p className="text-xl text-gray-400">(((DegenPlays from us)*(purchase price))+((Degens from 3rd-party)*((pool value)/DegenPlays sold)))/(DegenPlays owned)</p>
           </div>
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">Buyback rate in first 4 months</h1>
             <p className="text-xl text-gray-400">This is calculated as:</p>
             <p className="text-xl text-gray-400">(Average paid)/2</p>
           </div>
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">Buyback rate after first 4 months</h1>
             <p className="text-xl text-gray-400">This is calculated as:</p>
             <p className="text-xl text-gray-400">(Current pool value)/(DegenPlays sold)</p>

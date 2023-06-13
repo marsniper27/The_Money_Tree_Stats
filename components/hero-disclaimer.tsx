@@ -1,7 +1,3 @@
-import Image from 'next/image'
-
-import HeroImage from '@/public/images/hero-image-01.jpg'
-
 export default function HeroDisclaimer() {
   return (
     

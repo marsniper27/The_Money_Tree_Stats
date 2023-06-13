@@ -25,7 +25,7 @@ export default function HeroFeatures() {
           {/* Content */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h1 mb-4" data-aos="fade-up">How DegenPlays Works</h1>
-            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays do the work so you dont have too.</p>
+            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays does the work so you dont have to.</p>
           </div>
           {/* Image */}
           <Image className="mx-auto" src={HeroImage} width={768} height={432} alt="Hero" priority data-aos="fade-up" data-aos-delay="400" />

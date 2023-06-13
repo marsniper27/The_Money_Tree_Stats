@@ -79,11 +79,11 @@ export default function Stats() {
 
   return (
     <section>
-    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-      <div className="pb-12 md:pb-20">
+    <div className="max-w-6xl mx-auto px-4 sm:px-4">
+      <div className="pb-4 md:pb-8">
 
         {/* Section header */}
-        <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+        <div className="max-w-3xl mx-auto text-center pb-4 md:pb-2">
           <h1 className="h2 mb-4">Example if selling in first 4 months</h1>
           {/* <p className="text-xl text-gray-400">1000 tokens purchased in ICO</p> */}
         </div>
@@ -150,59 +150,74 @@ export default function Stats() {
           <h1 className="text-lg mb-4">Token Value: (${totalInvest.toFixed(2)}/{tokens}) / 2 = ${(avgTokenValue).toFixed(2)} Per DegenPlays</h1>
         </div>
       </div>
-    </div>
-      {/* <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="pb-12 md:pb-20"> */}
+      {/* Section header */}
+      <div className="max-w-3xl mx-auto text-center pb-4 md:pb-2">
+          <h1 className="h2 mb-4">Example if selling after first 4 months</h1>
+          {/* <p className="text-xl text-gray-400">1000 tokens purchased in ICO</p> */}
+        </div>
 
-          {/* Section header */}
-          {/* <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-            <h1 className="h2 mb-4">Example if selling in first 4 months with 3rd party purchase</h1>
-            <p className="text-xl text-gray-400">1000 tokens purchased in ICO and 500 tokens purchased form 3rd-party</p>
-          </div> */}
-
-          {/* <div className="grid md:grid-cols-3 bg-gray-800 divide-y md:divide-y-0 md:divide-x divide-gray-700 px-6 md:px-0 md:py-8 text-center"> */}
-            {/* 1st item */}
-            {/* <div className="py-6 md:py-0 md:px-8">
-              <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">1500</div>
-              <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays owned</div>
-            </div> */}
-            {/* 2nd item */}
-            {/* <div className="py-6 md:py-0 md:px-8">
-              <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">1000</div>
-              <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays from us</div>
-            </div> */}
-            {/* 3rd item */}
-            {/* <div className="py-6 md:py-0 md:px-8">
-              <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">500</div>
-              <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays from 3rd-party</div>
-            </div> */}
-            {/* 4th item */}
-            {/* <div className="py-6 md:py-0 md:px-8">
-              <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">$1 USD</div>
-              <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">purchse price from us</div>
-            </div> */}
-            {/* 5th item */}
-            {/* <div className="py-6 md:py-0 md:px-8">
-              <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">
-                <input
-                  type="text"
-                  value={poolValue}
-                  onChange={handlePoolInputChange}
-                  className="w-28 text-purple-600 font-bold leading-tight tracking-tighter outline-none border-b-2 border-purple-600"/>USD</div>
-              <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">Current Pool Value</div>
-            </div> */}
-            {/* 6th item */}
-            {/* <div className="py-6 md:py-0 md:px-8">
-              <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">500,000</div>
-              <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPLays Sold</div>
-            </div>
+        <div className="grid md:grid-cols-2 bg-gray-800 divide-y md:divide-y-0 md:divide-x divide-gray-700 px-6 md:px-0 md:py-8 text-center">
+          {/* 1st item */}
+          <div className="py-6 md:py-0 md:px-8">
+            <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">
+              <input
+                type="text"
+                value={tokens}
+                onChange={handleTokensInputChange}
+                className="w-28 text-purple-600 font-bold leading-tight tracking-tighter outline-none border-b-2 border-purple-600"/></div>
+            <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays owned</div>
           </div>
-          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-            <h1 className="h2 mb-4">Invested Value: ({1000} * $1) + ({500} * (${poolValue}/500,000)) = ${investedValue3rd.toFixed(2)}</h1>
-            <h1 className="h2 mb-4">Token Value: (${investedValue3rd.toFixed(2)}/1500) / 2 = ${tokenValue3rd.toFixed(4)} Per DegenPlays</h1>
+          {/* 2nd item */}
+          {/* <div className="py-6 md:py-0 md:px-8">
+            <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">
+              <input
+                type="text"
+                value={tokensFromUs}
+                onChange={handletokensFromUsInputChange}
+                className="w-28 text-purple-600 font-bold leading-tight tracking-tighter outline-none border-b-2 border-purple-600"/></div>
+            <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays from us</div>
           </div> */}
-        {/* </div> */}
-      {/* </div> */}
+          {/* 3rd item */}
+          {/* <div className="py-6 md:py-0 md:px-8">
+            <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">{token3rd}</div>
+            <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays from 3rd-party</div>
+          </div> */}
+          {/* 4th item */}
+          <div className="py-6 md:py-0 md:px-8">
+            <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">
+              <input
+                type="text"
+                value={investedValue}
+                onChange={handleInvestedValueInputChange}
+                className="w-28 text-purple-600 font-bold leading-tight tracking-tighter outline-none border-b-2 border-purple-600"/></div>
+            <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">purchase value from us</div>
+          </div>
+          {/* 5th item */}
+          <div className="py-6 md:py-0 md:px-8">
+            <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">
+              <input
+                type="text"
+                value={poolValue}
+                onChange={handlePoolInputChange}
+                className="w-28 text-purple-600 font-bold leading-tight tracking-tighter outline-none border-b-2 border-purple-600"/>USD</div>
+            <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">Current Pool Value</div>
+          </div>
+          {/* 6th item */}
+          <div className="py-6 md:py-0 md:px-8">
+            <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">
+              <input
+                type="text"
+                value={tokensSold}
+                onChange={handleTokensSoldInputChange}
+                className="w-28 text-purple-600 font-bold leading-tight tracking-tighter outline-none border-b-2 border-purple-600"/></div>
+            <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPLays Sold</div>
+          </div>
+        </div>
+        <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+          <h1 className="text-lg mb-4">Value: ({tokens} * (${poolValue}/{tokensSold})) = ${tokens *(poolValue/tokensSold).toFixed(2)}</h1>
+          <h1 className="text-lg mb-4">Token Value: (${tokens *(poolValue/tokensSold).toFixed(2)}/{tokens})= ${(((tokens *(poolValue/tokensSold))/tokens)).toFixed(2)} Per DegenPlays</h1>
+        </div>
+      </div>
     </section>
   )
 }
