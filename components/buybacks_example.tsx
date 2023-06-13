@@ -214,8 +214,8 @@ export default function Stats() {
           </div>
         </div>
         <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-          <h1 className="text-lg mb-4">Value: ({tokens} * (${poolValue}/{tokensSold})) = ${tokens *(poolValue/tokensSold).toFixed(2)}</h1>
-          <h1 className="text-lg mb-4">Token Value: (${tokens *(poolValue/tokensSold).toFixed(2)}/{tokens})= ${(((tokens *(poolValue/tokensSold))/tokens)).toFixed(2)} Per DegenPlays</h1>
+          <h1 className="text-lg mb-4">Value: ({tokens} * (${poolValue}/{tokensSold})) = ${(tokens *(poolValue/tokensSold))}</h1>
+          <h1 className="text-lg mb-4">Token Value: (${(tokens *(poolValue/tokensSold))}/{tokens})= ${(((tokens *(poolValue/tokensSold))/tokens))} Per DegenPlays</h1>
         </div>
       </div>
     </section>
