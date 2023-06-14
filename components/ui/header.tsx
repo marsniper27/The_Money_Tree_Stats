@@ -31,26 +31,39 @@ export default function Header() {
           provider = (window as any).ethereum;
           chainId = await provider.request({ method: 'eth_chainId' });
           setConnectedChainId(chainId);
+          const web3Instance = new Web3(provider);
+          const updatedAccounts = await web3Instance.eth.getAccounts();
+          setAccounts(updatedAccounts);
+          if (web3) {
+            // Check if web3 is not null before calling setProvider
+            web3.setProvider(provider);
+            const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
+            if (isChainSupported) {
+              setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(chainId, 16)));
+              // Continue with the application flow
+            } else {
+              // Show supported chains in a popup
+              setShowChainSelection(true);
+            }
+          }
         } else {
           console.error('MetaMask is not installed');
         }
       } else if (wallet === 'walletconnect') {
         // Connect using WalletConnect
-        const connector = new WalletConnectConnector({ rpc: { 1: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID' } });
+        const connector = new WalletConnectConnector({ rpc: { 1: supportedChains.find((chain:  { id: number}) => chain.id === 137).rpcUrl } });
         await connector.activate();
-        provider = connector.getProvider();
-      }
-
-      if (provider) {
+        provider = await connector.getProvider();
+        chainId = await provider.chainId
         const web3Instance = new Web3(provider);
         const updatedAccounts = await web3Instance.eth.getAccounts();
         setAccounts(updatedAccounts);
         if (web3) {
           // Check if web3 is not null before calling setProvider
           web3.setProvider(provider);
-          const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
+          const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  chainId);
           if (isChainSupported) {
-            setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+            setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === chainId));
             // Continue with the application flow
           } else {
             // Show supported chains in a popup
@@ -78,7 +91,9 @@ export default function Header() {
         const connector = new WalletConnectConnector({ rpc: { 1: 'https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID' } });
         await connector.close();
       }
-
+      if(web3){
+        web3.setProvider(null);
+      }
       setAccounts([]);
       setSelectedWallet('');
       setConnectedChain('');
@@ -136,11 +151,24 @@ export default function Header() {
     setShowChainSelection(false);
     if (selectedChain) {
       try {
-        await (window as any).ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: "0x" + selectedChain.toString(16) }],
-        });
-        setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+        if(web3){
+          const provider:any = web3.currentProvider;
+          if(provider && provider.isMetaMask){
+            await (window as any).ethereum.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: "0x" + selectedChain.toString(16) }],
+            });
+         }
+          else if(provider && typeof web3.currentProvider !== 'string') {
+            const walletConnectProvider = web3.currentProvider as any;
+            await walletConnectProvider.request({
+              method: 'wallet_switchEthereumChain',
+              params: [{ chainId: selectedChain }],
+            });
+
+          }
+          setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+        }
       } catch (error) {
         console.error('Error switching chain:', error);
       }
@@ -207,38 +235,14 @@ export default function Header() {
                     Disclaimer
                   </Link>
                 </li>
-                {/* <li>
-                  <Link href="/about" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
-                    About us
-                  </Link>
-                </li> */}
-                {/* 1st level: hover */}
-                {/* <Dropdown title="Support"> */}
-                {/* 2nd level: hover */}
-                {/* <li>
-                  <Link href="/contact" className="font-medium text-sm text-gray-400 hover:text-purple-600 flex py-2 px-4 leading-tight">
-                    Contact us
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/help/frequently-asked-questions" className="font-medium text-sm text-gray-400 hover:text-purple-600 flex py-2 px-4 leading-tight">
-                    Help center
-                  </Link>
-                </li>
-                <li>
-                  <Link href="/404" className="font-medium text-sm text-gray-400 hover:text-purple-600 flex py-2 px-4 leading-tight">
-                    404
-                  </Link>
-                </li>
-              </Dropdown> */}
               </ul>
 
               {/* Desktop sign in links */}
               <ul className="flex grow justify-end flex-wrap items-center">
                 {accounts.length > 0 ? (
                   <div>
-                    <p className="md:pt-2">Connected account: {accounts[0].substring(0, 7)}</p>
-                    <p>Connected chain: {connectedChain?.name}</p>
+                    <p className="md:pt-2">Account: {accounts[0].substring(0, 7)}</p>
+                    <p>Chain: {connectedChain?.name}</p>
                     <div data-aos="fade-up" data-aos-delay="400">
                       <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={disconnectWallet}>Disconnect</a>
                     </div>
