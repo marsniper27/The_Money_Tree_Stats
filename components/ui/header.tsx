@@ -51,7 +51,8 @@ export default function Header() {
         }
       } else if (wallet === 'walletconnect') {
         // Connect using WalletConnect
-        const connector = new WalletConnectConnector({ rpc: { 1: supportedChains.find((chain:  { id: number}) => chain.id === 137).rpcUrl } });
+        const chain = supportedChains.find((chain) => chain.id === 137);
+        const connector = new WalletConnectConnector({ rpc: { 1: chain?.rpcUrl || '' } });
         await connector.activate();
         provider = await connector.getProvider();
         chainId = await provider.chainId

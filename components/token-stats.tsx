@@ -1,7 +1,66 @@
-import VideoThumb from '@/public/images/hero-image-01.jpg'
-import ModalVideo from '@/components/modal-video'
+'use client'
+import { useState, useEffect} from 'react';
+import { TOKEN_ADDRESS, TOKEN_ABI, supportedChains, POOL_ADDRESS} from '@/components/utils/config';
+import Web3 from 'web3';
 
-export default function HeroHome() {
+export default function TokenStats() {
+  const [chainStats, setChainStats] = useState<any[]>([]);
+  const [totalSupply, setTotalSupply] = useState(0)
+  const [totalValue, setTotalValue] = useState(0)
+  const [totalInvested, setTotalInvested] = useState(0)
+  
+  useEffect(() => {
+    async function initializeStats() {
+      let curTotalValue = 0;
+      let curTotalSupply = 0;
+      let curtotalInvested = 0;
+      let allChainStats = [];
+  
+      for (const chain of supportedChains) {
+        let chainTokens = [];
+        try {
+          const provider = new Web3.providers.HttpProvider(chain.rpcUrl);
+          const web3 = new Web3(provider);
+          for (const token of chain.tokens) {
+            const tokenContract = new web3.eth.Contract(TOKEN_ABI, token.address);
+            const tokenBalance = await tokenContract.methods.balanceOf(POOL_ADDRESS).call();
+            chainTokens.push({name:token.name,balance:tokenBalance});
+  
+            if (tokenBalance) {
+              curTotalValue += Number(tokenBalance);
+            }
+  
+            if (chain.name === "Polygon Mainnet" && token.name === "DAI") {
+              console.log(tokenBalance);
+            }
+          }
+  
+          const tokenContract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS);
+          const currentSupply = 0//await tokenContract.methods.totalSupply().call();
+          const totalInvestment = 0//await tokenContract.methods.totalInvestment().call();
+  
+          allChainStats.push({chain:chain.name,tokens:chainTokens,supply:currentSupply,investement:totalInvestment})
+          if (currentSupply) {
+            curTotalSupply += Number(currentSupply);
+          }
+  
+          if (totalInvestment) {
+            curtotalInvested += Number(totalInvestment);
+          }
+        } catch (error) {
+          console.log('connection to network failed');
+        }
+      }
+  
+      setTotalValue(curTotalValue);
+      setTotalSupply(curTotalSupply);
+      setTotalInvested(curtotalInvested);
+      setChainStats(allChainStats)
+    }
+  
+    initializeStats();
+  }, []);
+
   return (
     <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
@@ -20,20 +79,79 @@ export default function HeroHome() {
         </div>
 
         {/* Hero content */}
-        <div className="relative pt-32 pb-10 md:pt-40 md:pb-16">
+        <div className="relative pt-32 pb-10 md:pt-5 md:pb-16">
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-            <h1 className="h1 mb-4" data-aos="fade-up">Degen Plays</h1>
-            <p className="text-xl text-gray-400 mb-8" data-aos="fade-up" data-aos-delay="200">Ready to take advnatage of Degen Plays without the high risk?</p>
-            <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
-              <div data-aos="fade-up" data-aos-delay="400">
-                <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="/ico">Buy DegenPlays</a>
+            <h1 className="h1 mb-4" data-aos="fade-up">System Stats</h1>
+             {/* Items */}
+            <div className="max-w-sm mx-auto grid gap-8 md:grid-cols-3 lg:gap-16 items-start md:max-w-none">
+
+              {/* 1st item */}
+              <div className="relative flex flex-col items-center" data-aos="fade-up">
+                <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="200"></div>
+                <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                  <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 23h22v18H21z" fill="none" fillRule="evenodd" />
+                  <path className="stroke-current text-purple-100" d="M26 28h12M26 32h12M26 36h5" strokeWidth="2" strokeLinecap="square" />
+                </svg>
+                <h4 className="h4 mb-2">Current Total DegenPlays Tokens</h4>
+                <p className="text-lg text-gray-400 text-center">{parseFloat(Web3.utils.fromWei((totalSupply).toString(),'ether')).toFixed(4)}</p><p>DegenPlays</p>
               </div>
-              <div data-aos="fade-up" data-aos-delay="600">
-                <a className="btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4" href="/howItWorks">Learn more</a>
+
+              {/* 2nd item */}
+              <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="200">
+                <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="400"></div>
+                <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                  <g fill="none" fillRule="evenodd">
+                    <path className="stroke-current text-purple-300" d="M40 22a2 2 0 012 2v16a2 2 0 01-2 2H24a2 2 0 01-2-2V24a2 2 0 012-2" strokeWidth="2" strokeLinecap="square" />
+                    <path className="stroke-current text-purple-100" strokeWidth="2" strokeLinecap="square" d="M36 32l-4-3-4 3V22h8z" />
+                  </g>
+                </svg>
+                <h4 className="h4 mb-2">Total Invested</h4>
+                <p className="text-lg text-gray-400 text-center">{parseFloat(Web3.utils.fromWei((totalInvested).toString(),'ether')).toFixed(4)}</p><p> USD</p>
+              </div>
+
+              {/* 3rd item */}
+              <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                  <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />
+                  <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" />
+                </svg>
+                <h4 className="h4 mb-2">Curent Pool Value</h4>
+                <p className="text-lg text-gray-400 text-center">{parseFloat(Web3.utils.fromWei((totalValue).toString(),'ether')).toFixed(4)}</p><p> USD</p>
               </div>
             </div>
+          </div>
+
+          <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+            <h1 className="h1 mb-4" data-aos="fade-up">Chain Stats</h1>
+            {/* Items */}
+              {chainStats.map((item, index) => (
+                <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+                <h1 className="h1 mb-4" data-aos="fade-up">{item.chain}</h1>
+                <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay={index * 200}>
+                  <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="200"></div>
+                      {/* Items */}
+                    <div className="max-w-sm mx-auto grid gap-8 md:grid-cols-3 lg:gap-16 items-start md:max-w-none">
+                      {item.tokens.map((token:any, index:number) => (
+                        <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                          <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                            <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />
+                            <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" />
+                          </svg>
+                          <h4 className="h4 mb-2">{token.name}</h4>
+                          <p className="text-lg text-gray-400 text-center">Balance: {parseFloat(Web3.utils.fromWei((token.balance).toString(),'ether')).toFixed(4)}</p><p> USD</p>
+                        </div>
+                      ))}
+                    </div>
+                    <h4 className="h4 mb-2">Invested on chain: {item.investement}</h4>
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </div>

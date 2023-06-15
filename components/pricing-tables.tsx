@@ -21,7 +21,7 @@ export default function PricingTables() {
           const account = accounts[0];
           const tokenContract = new web3.eth.Contract(
             TOKEN_ABI,
-            supportedChains.tokens.find((token:any) => token.name === selectedToken)?.address
+            supportedChains[selectedChain]?.tokens.find((token:any) => token.name === selectedToken)?.address
           );
           const balance = await tokenContract.methods.balanceOf(account).call();
           setTokenBalance((balance / 10 ** 18).toString());
