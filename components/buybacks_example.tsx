@@ -7,6 +7,7 @@ export default function Stats() {
   const [token3rd, setToken3rd] = useState(0);
   const [investedValue, setInvestedValue] = useState(1000);
   const [poolValue, setPoolValue] = useState(120000);
+  const [afterPoolValue, setAfterPoolValue] = useState(500000);
   const [tokensSold, setTokensSold] = useState(500000);
 
   const [tokenValue, setTokenValue] = useState(1);
@@ -19,6 +20,14 @@ export default function Stats() {
   const handlePoolInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     const value = parseFloat(event.target.value);
     setPoolValue(value);
+    setInvestedValue3rd(value/tokensSold)
+    setTotalInvest((value/tokensSold)*token3rd + investedValue)
+    setAvgTokenValue(((((value/tokensSold)*token3rd) + investedValue)/tokens)/2)
+  };
+
+  const handleAfterPoolInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = parseFloat(event.target.value);
+    setAfterPoolValue(value);
     setInvestedValue3rd(value/tokensSold)
     setTotalInvest((value/tokensSold)*token3rd + investedValue)
     setAvgTokenValue(((((value/tokensSold)*token3rd) + investedValue)/tokens)/2)
@@ -197,8 +206,8 @@ export default function Stats() {
             <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">
               <input
                 type="text"
-                value={poolValue}
-                onChange={handlePoolInputChange}
+                value={afterPoolValue}
+                onChange={handleAfterPoolInputChange}
                 className="w-28 text-purple-600 font-bold leading-tight tracking-tighter outline-none border-b-2 border-purple-600"/>USD</div>
             <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">Current Pool Value</div>
           </div>
@@ -214,8 +223,8 @@ export default function Stats() {
           </div>
         </div>
         <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-          <h1 className="text-lg mb-4">Value: ({tokens} * (${poolValue}/{tokensSold})) = ${(tokens *(poolValue/tokensSold))}</h1>
-          <h1 className="text-lg mb-4">Token Value: (${(tokens *(poolValue/tokensSold))}/{tokens})= ${(((tokens *(poolValue/tokensSold))/tokens))} Per DegenPlays</h1>
+          <h1 className="text-lg mb-4">Value: ({tokens} * (${afterPoolValue}/{tokensSold})) = ${(tokens *(afterPoolValue/tokensSold))}</h1>
+          <h1 className="text-lg mb-4">Token Value: (${(tokens *(afterPoolValue/tokensSold))}/{tokens})= ${(((tokens *(afterPoolValue/tokensSold))/tokens))} Per DegenPlays</h1>
         </div>
       </div>
     </section>

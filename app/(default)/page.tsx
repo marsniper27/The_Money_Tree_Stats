@@ -6,6 +6,7 @@ export const metadata = {
 import Hero from '@/components/hero-home'
 import Process from '@/components/process'
 import Target from '@/components/target'
+import Ads from '@/components/ads'
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Hero />
       <Process />
       <Target />
+      <Ads />
     </>
   )
 }
