@@ -22,7 +22,7 @@ export default function Process() {
                 <path className="stroke-current text-purple-100" d="M26 28h12M26 32h12M26 36h5" strokeWidth="2" strokeLinecap="square" />
               </svg>
               <h4 className="h4 mb-2"><span className="text-gray-400 mx-auto">1. </span>Buy DegenPlays</h4>
-              <p className="text-lg text-gray-400 text-center">Purchase DegenPlay tokens on any of our suporrted chains with any of our suported tokens</p>
+              <p className="text-lg text-gray-400 text-center">Purchase DegenPlay tokens on any of our supported chains with any of our suported tokens</p>
             </div>
 
             {/* 2nd item */}
