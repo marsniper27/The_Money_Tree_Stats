@@ -13,7 +13,7 @@ export default function Stats() {
           <div className="grid md:grid-cols-3 bg-gray-800 divide-y md:divide-y-0 md:divide-x divide-gray-700 px-6 md:px-0 md:py-8 text-center ">
             {/* 1st item */}
             <div className="py-6 md:py-0 md:px-8">
-              <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">1,000,000</div>
+              <div className="text-4xl font-bold leading-tight tracking-tighter text-purple-600 mb-2" data-aos="fade-up">10,000</div>
               <div className="text-lg text-gray-400" data-aos="fade-up" data-aos-delay="200">Initial Supply</div>
             </div>
             {/* 2nd item */}
@@ -29,9 +29,9 @@ export default function Stats() {
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8 md:pt-8">
             <h1 className="h2 mb-4">Supply</h1>
-            <p className="text-xl text-gray-400">The intial total supply for DegenPlays is 1 million tokens.</p>
+            <p className="text-xl text-gray-400">The intial total supply for DegenPlays is 10,000 tokens for the devs.</p>
             <p className="text-xl text-gray-400">500,000 of the supply is being offered in the ICO.</p>
-            <p className="text-xl text-gray-400">Minting adittional tokens is possible once the initial is all sold. New tokens will be minted at a cost of $1+current token value to ensure the value of the token is only positively effected.</p>
+            <p className="text-xl text-gray-400">Tokens are minted as sold. After the ICO new tokens will be minted at a cost of $1+current token value to ensure the value of the token is only positively effected.</p>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">Team Fees</h1>

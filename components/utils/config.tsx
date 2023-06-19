@@ -1,6 +1,7 @@
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
+export const STAGE = process.env.REACT_APP_STAGE;
 export const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS || '0x2d7882beDcbfDDce29Ba99965dd3cdF7fcB10A1e';
 export const POOL_ADDRESS = '0xc0a7302fc54224c9b510bd9ce382046e13ee55fa';
 export const TOKEN_ABI: AbiItem[] = process.env.REACT_APP_TOKEN_ABI
@@ -377,13 +378,13 @@ export const TIERS = process.env.TIERS ? JSON.parse(process.env.TIERS): [
         "tierNum": 2,
         "minAmount": 1001,
         "maxAmount": 5000,
-        "price": 0.9
+        "price": 0.95
     },
     {
         "tierNum": 3,
         "minAmount": 5001,
         "maxAmount": 100000000,
-        "price": 0.85
+        "price": 0.90
     },
   ];
 

@@ -184,7 +184,7 @@ export default function PricingTables() {
               </div>
             </div>
           </div>
-            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">Once the intial 500,000 DegenPlays are sold the price will be increased to $1 + current token value until token value equals $5 then sales will be at current value.</p>
+            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">Once the intial 500,000 DegenPlays are sold the price will be increased to $1 + current token value.</p>
         </div>
             <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">Trades on any DEX with a DegenPlays pool will always be possible at current market value. DegenPlays will not be trying to influence the market. Prices here are for new token purchases. Purchases from a dex or third party will be honored at pool value not the ICO value.</p>
       </div>
