@@ -29,10 +29,6 @@ export default function TokenStats() {
             if (tokenBalance) {
               curTotalValue += Number(tokenBalance);
             }
-  
-            if (chain.name === "Polygon Mainnet" && token.name === "DAI") {
-              console.log(tokenBalance);
-            }
           }
   
           const tokenContract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS);
@@ -130,14 +126,14 @@ export default function TokenStats() {
             <h1 className="h1 mb-4" data-aos="fade-up">Chain Stats</h1>
             {/* Items */}
               {chainStats.map((item, index) => (
-                <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-                <h1 className="h1 mb-4" data-aos="fade-up">{item.chain}</h1>
-                <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay={index * 200}>
+                <div key={item.name} className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+                  <h1 className="h1 mb-4" data-aos="fade-up">{item.chain}</h1>
+                  <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay={index * 200}>
                   <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="200"></div>
-                      {/* Items */}
+                    {/* Items */}
                     <div className="max-w-sm mx-auto grid gap-8 md:grid-cols-3 lg:gap-16 items-start md:max-w-none">
                       {item.tokens.map((token:any, index:number) => (
-                        <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                        <div key={token.name} className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
                           <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                             <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
                             <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />

@@ -1,6 +1,6 @@
 'use client'
 import { useState,useEffect } from 'react';
-import { TIERS, supportedChains, TOKEN_ABI} from '@/components/utils/config';
+import { TIERS, supportedChains, TOKEN_ABI,TOKEN_ADDRESS} from '@/components/utils/config';
 import { useWeb3 } from '@/components/utils/Web3Context';
 
 export default function PricingTables() {
@@ -81,9 +81,32 @@ export default function PricingTables() {
     fetchSelectedChain();
   }, [web3?.currentProvider]);
 
-  const handleConfirm = (e: React.FormEvent) => {
+  const  handleConfirm = async (e: React.FormEvent, total: number) => {
     e.preventDefault();
-    // Place the logic to confirm the purchase here
+
+  if (web3 && selectedToken) {
+    try {
+      const accounts = await web3.eth.getAccounts();
+      const account = accounts[0];
+      const tokenContract = new web3.eth.Contract(
+        TOKEN_ABI,
+        supportedChains[selectedChain]?.tokens.find((token: any) => token.name === selectedToken)?.address
+      );
+      const allowance = await tokenContract.methods.allowance(account).call();
+
+      if (allowance < total) {
+        await tokenContract.methods.approve(TOKEN_ADDRESS, total).send({
+          from: account
+        });
+      }
+
+      // Place the logic to confirm the purchase here
+      // You can access the total value here and perform any necessary operations
+
+    } catch (error) {
+      console.error(error);
+    }
+  }
   };
 
 
@@ -205,6 +228,7 @@ export default function PricingTables() {
                   type="number"
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-600 text-center text-lg"
                   value={tokenAmount}
+                  min={TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).minAmount}
                   onChange={(e) => setTokenAmount(parseInt(e.target.value))}
                 />
               </div> 
@@ -215,7 +239,7 @@ export default function PricingTables() {
               </div>
               <div className="mb-4">
                 <label className="block mb-2 text-lg font-medium text-gray-300">
-                  Total: ${TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).price * tokenAmount}
+                  Total: ${(TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).price * tokenAmount).toFixed(2)}
                 </label>
               </div>
               <select
@@ -232,6 +256,7 @@ export default function PricingTables() {
               <button
                 type="submit"
                 className="btn-sm text-white bg-purple-600 hover:bg-purple-700"
+                onClick={(e) => handleConfirm(e, (TIERS.find((tier: { tierNum: number }) => tier.tierNum === selectedTier).price * tokenAmount))}
               >
                 Confirm
               </button>
