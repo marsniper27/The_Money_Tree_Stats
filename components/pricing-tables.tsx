@@ -8,37 +8,41 @@ export default function PricingTables() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTier, setSelectedTier] = useState(1);
   const [tokenAmount, setTokenAmount ] = useState(0)
-  const [selectedToken, setSelectedToken ] = useState('')
+  const [selectedToken, setSelectedToken ] = useState<any>('')
   const [selectedChain, setSelectedChain ] = useState<any>('')
-  const [tokenBalance, setTokenBalance] = useState('0')
-  const [tokenOptions, setTokenOptions] = useState<string[]>([]);
-  
-  useEffect(() => {
-    const fetchTokenBalance = async () => {
-      if (web3 && selectedToken) {
-        try {
-          const accounts = await web3.eth.getAccounts();
-          const account = accounts[0];
-          const tokenContract = new web3.eth.Contract(
-            TOKEN_ABI,
-            supportedChains[selectedChain]?.tokens.find((token:any) => token.name === selectedToken)?.address
-          );
-          const balance = await tokenContract.methods.balanceOf(account).call();
-          setTokenBalance((balance / 10 ** 18).toString());
-        } catch (error) {
-          console.error('Error fetching token balance:', error);
-          setTokenBalance('N/A');
-        }
-      } else {
-        setTokenBalance('N/A');
-      }
-    };
+  const [tokenOptions, setTokenOptions] = useState<any[]>([]);
 
-    fetchTokenBalance();
-  }, [web3, selectedToken]);
+  const fetchTokenBalance = async (token:any): Promise<{ balance: number; allowance: number } | undefined> => {
+    if (web3){
+      try {
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0];
+        const tokenContract = new web3.eth.Contract(
+          TOKEN_ABI,
+          token.address
+        );
+        const balance = await tokenContract.methods.balanceOf(account).call();
+        const decimals = await tokenContract.methods.decimals().call();
+        const tokenBalance = parseFloat(balance) / 10 ** decimals;
+        
+        const allowance = await tokenContract.methods.allowance(account, TOKEN_ADDRESS).call();
+
+        return {
+          balance: tokenBalance,
+          allowance: allowance
+        };
+      } catch (error) {
+        console.error('Error fetching token balance:', error);
+      }
+    }
+    else {
+      return undefined
+    }
+  };
 
   useEffect(() => {
     const fetchSelectedChain = async () => {
+      setIsModalOpen(false)
       if (web3) {
         try {
           const provider: any = web3.currentProvider;
@@ -47,7 +51,27 @@ export default function PricingTables() {
             const chain = supportedChains.find((chain: { id: number }) => chain.id === parseInt(chainId, 16));
             setSelectedChain(chain);
             if (chain) {
-              setTokenOptions(chain.tokens.map((token: any) => token.name));
+              for (const token of chain.tokens){
+                const tokenData = await fetchTokenBalance(token);
+                if (tokenData) {
+                  setTokenOptions((prevOptions) => [
+                    ...prevOptions,
+                    {
+                      name: token.name,
+                      balance: tokenData.balance,
+                      allowance: tokenData.allowance
+                    }
+                  ]);
+                  if(selectedToken===''){
+                    setSelectedToken(
+                      {
+                        name: token.name,
+                        balance: tokenData.balance,
+                        allowance: tokenData.allowance
+                      });
+                  }
+                }
+              }
             }
             else{
               setTokenOptions(["Please connect a wallet on a supported chain"])
@@ -66,7 +90,14 @@ export default function PricingTables() {
             
             setSelectedChain(chain);
             if (chain) {
-              setTokenOptions(chain.tokens.map((token:any) => token.name));
+              setTokenOptions(
+                chain.tokens.map((token: any) => ({
+                  name: token.name,
+                  balance: 0,
+                  allowance: 0
+                }))
+              );
+              setSelectedToken(chain.tokens[0]);
             }
             else{
               setTokenOptions(["Please connect a wallet on a supported chain"])
@@ -81,32 +112,75 @@ export default function PricingTables() {
     fetchSelectedChain();
   }, [web3?.currentProvider]);
 
-  const  handleConfirm = async (e: React.FormEvent, total: number) => {
+  const handleConfirm = async (e: React.FormEvent, total: number) => {
     e.preventDefault();
+  
+    if (web3 && selectedToken) {
+      try {
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0];
+        const tokenContract = new web3.eth.Contract(
+          TOKEN_ABI,
+          supportedChains[selectedChain]?.tokens.find(
+            (token: any) => token.name === selectedToken
+          )?.address
+        );
+        if (selectedToken.allowance < total) {
+          // Approve tokens
+          await tokenContract.methods.approve(TOKEN_ADDRESS, total).send({
+            from: account
+          });
+  
+          // Listen for the Approval event to confirm the approval transaction
+          tokenContract.once(
+            "Approval",
+            {
+              filter: {
+                owner: account,
+                spender: TOKEN_ADDRESS
+              },
+              fromBlock: "latest"
+            },
+            async (error: any, event: any) => {
+              if (error) {
+                console.error("Error confirming approval:", error);
+              } else {
+                console.log("Approval confirmed:", event);
+  
+                // The approval transaction is confirmed, continue with the purchase confirmation
+                confirmPurchase();
+              }
+            }
+          );
+        } else {
+          // Allowance is already sufficient, proceed with the purchase confirmation
+          confirmPurchase();
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+  
+  const confirmPurchase = async () => {  
+    if (web3 && selectedToken) {
+      try {
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0];
+    
+        const tokenContract = new web3.eth.Contract(
+          TOKEN_ABI,
+          TOKEN_ADDRESS
+        );
 
-  if (web3 && selectedToken) {
-    try {
-      const accounts = await web3.eth.getAccounts();
-      const account = accounts[0];
-      const tokenContract = new web3.eth.Contract(
-        TOKEN_ABI,
-        supportedChains[selectedChain]?.tokens.find((token: any) => token.name === selectedToken)?.address
-      );
-      const allowance = await tokenContract.methods.allowance(account).call();
-
-      if (allowance < total) {
-        await tokenContract.methods.approve(TOKEN_ADDRESS, total).send({
+        await tokenContract.methods.icoPurchase(tokenAmount,selectedChain.tokens.find((token: any) => token.name === selectedToken)?.address).send({
           from: account
         });
       }
-
-      // Place the logic to confirm the purchase here
-      // You can access the total value here and perform any necessary operations
-
-    } catch (error) {
-      console.error(error);
+      catch (error) {
+        console.error(error);
+      }
     }
-  }
   };
 
 
@@ -244,22 +318,30 @@ export default function PricingTables() {
               </div>
               <select
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-600 text-center text-lg"
-                value={selectedToken}
-                onChange={(e) => setSelectedToken(e.target.value)}
+                value={selectedToken.name}
+                onChange={(e) => {
+                  const tokenName = e.target.value.split(' ')[0]
+                  setSelectedToken(tokenOptions.find((token)=> token.name === tokenName))
+                  }
+                }
               >
                 {tokenOptions.map((option) => (
-                  <option key={option} value={option}>
-                     {`${option} Balance: ${tokenBalance}`} {/* Display token name and balance */}
+                  <option key={option.id} value={option.name}>
+                    {`${option.name} Balance: ${option.balance}`} {/* Display token name and balance */}
                   </option>
                 ))}
               </select>
-              <button
-                type="submit"
-                className="btn-sm text-white bg-purple-600 hover:bg-purple-700"
-                onClick={(e) => handleConfirm(e, (TIERS.find((tier: { tierNum: number }) => tier.tierNum === selectedTier).price * tokenAmount))}
-              >
-                Confirm
-              </button>
+              {selectedToken.balance >= (TIERS.find((tier: { tierNum: number }) => tier.tierNum === selectedTier).price * tokenAmount)?
+                <button
+                  type="submit"
+                  className="btn-sm text-white bg-purple-600 hover:bg-purple-700"
+                  onClick={(e) => handleConfirm(e, (TIERS.find((tier: { tierNum: number }) => tier.tierNum === selectedTier).price * tokenAmount))}
+                >
+                  {selectedToken.allowance < (TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).price * tokenAmount) ? "Approve Tokens" : "Purchase Tokens"}
+                </button>
+              :
+              <>Not enough {selectedToken.name}</>
+              }
               <button
                 type="button"
                 className="btn-sm text-gray-400 ml-2"
