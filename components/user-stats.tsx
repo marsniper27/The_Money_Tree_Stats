@@ -1,30 +1,142 @@
 'use client'
 import { useState, useEffect} from 'react';
-import { TOKEN_ADDRESS, TOKEN_ABI } from '@/components/utils/config';
+import { TOKEN_ADDRESS, TOKEN_ABI, supportedChains, POOL_ADDRESS } from '@/components/utils/config';
 import { useWeb3 } from '@/components/utils/Web3Context';
+import Web3 from 'web3';
+import Attach_money from'@/public/images/icons/attach_money'
 
 export default function HeroHome() {
   const web3 = useWeb3();
   const [tokenBalance, setTokenBalance] = useState('Loading...');
+  const [userTokens, setUserTokens ] = useState(0)
+  const [totalSupply, setTotalSupply ] = useState(0)
+  const [totalRaised, setTotalRaised ] = useState(0)
+  const [poolValue, setPoolValue ] = useState(0)
+  const [userTokensPurchased, setUserTokensPurchased ] = useState(0)
+  const [userInvestment, setUserInvestment ] = useState(0)
+  const [selectedChain, setSelectedChain ] = useState<any>('')
+  
+  // useEffect(() => {
+  //   if (web3) {
+  //     const provider = web3.currentProvider;
+  //     const tokenContract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS.toString());
+  //     web3.eth.getAccounts().then(accounts => {
+  //       const account = accounts[0];
+  //       tokenContract.methods.balanceOf(account).call().then((balance: number) => {
+  //         setTokenBalance((balance / 10 ** 18).toString());
+  //       }).catch((error: any) => {
+  //         console.error('Error fetching token balance:', error);
+  //         setTokenBalance('N/A');
+  //       });
+  //     });
+  //   }
+  //   else{
+  //     setTokenBalance('N/A');
+  //   }
+  // }, [web3]);
+
+  
+  useEffect(()=>{
+    const fetchTokenInfo = async () => {
+      let curTotalValue = 0;
+      let curTotalSupply = 0;
+      let curtotalInvested = 0;
+
+      for (const chain of supportedChains) {
+        let chainTokens = [];
+        try {
+          const provider = new Web3.providers.HttpProvider(chain.rpcUrl);
+          const web3 = new Web3(provider);
+          for (const token of chain.tokens) {
+            const tokenContract = new web3.eth.Contract(TOKEN_ABI, token.address);
+            const tokenBalance = await tokenContract.methods.balanceOf(POOL_ADDRESS).call();
+            const tokenDecimals = await tokenContract.methods.decimals().call();
+            chainTokens.push({name:token.name,balance:tokenBalance});
+  
+            if (tokenBalance) {
+              curTotalValue += Number(tokenBalance*10**(18-tokenDecimals));
+            }
+          }
+  
+          const tokenContract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS);
+          const currentSupply = await tokenContract.methods.totalSupply().call();
+          const totalInvestment = await tokenContract.methods.totalInvestment().call();
+  
+          if (currentSupply) {
+            curTotalSupply += Number(currentSupply);
+          }
+  
+          if (totalInvestment) {
+            curtotalInvested += Number(totalInvestment);
+          }
+        } catch (error) {
+          console.log('connection to network failed');
+        }
+      }
+  
+      setPoolValue(curTotalValue);
+      setTotalSupply(curTotalSupply);
+      setTotalRaised(curtotalInvested);
+    }
+    fetchTokenInfo();
+  },[])
+
   
   useEffect(() => {
-    if (web3) {
-      const provider = web3.currentProvider;
-      const tokenContract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS.toString());
-      web3.eth.getAccounts().then(accounts => {
-        const account = accounts[0];
-        tokenContract.methods.balanceOf(account).call().then((balance: number) => {
-          setTokenBalance((balance / 10 ** 18).toString());
-        }).catch((error: any) => {
-          console.error('Error fetching token balance:', error);
-          setTokenBalance('N/A');
-        });
-      });
-    }
-    else{
-      setTokenBalance('N/A');
-    }
-  }, [web3]);
+    const fetchUserStats = async () => {
+      if (web3) {
+        try {
+          const provider: any = web3.currentProvider;
+          let chainId:string='';
+          if (provider && !provider.isWalletConnect) {
+             chainId = await provider.request({ method: 'eth_chainId' });
+          }
+          else if (provider.isWalletConnect) {
+            // Get the chainId using eth_chainId method
+             chainId = await provider.eth.getChainId()//.request({ method: 'eth_chainId' });
+          }
+          if(chainId!=''){
+            const chain = supportedChains.find((chain: { id: number }) => chain.id === parseInt(chainId, 16));
+            setSelectedChain(chain);
+            if (chain) {
+              const tokenContract = new web3.eth.Contract(TOKEN_ABI, TOKEN_ADDRESS.toString());
+              web3.eth.getAccounts().then(accounts => {
+                const account = accounts[0];
+                tokenContract.methods.balanceOf(account).call().then((balance: number) => {
+                  setUserTokens((balance / 10 ** 18));
+                }).catch((error: any) => {
+                  console.error('Error fetching token balance:', error);
+                  setUserTokens(0);
+                });
+                
+                tokenContract.methods.checkTokensPurchased(account).call().then((purchased: number) => {
+                  setUserTokensPurchased((purchased / 10 ** 18));
+                }).catch((error: any) => {
+                  console.error('Error fetching token balance:', error);
+                  setUserTokensPurchased(0);
+                });
+
+                tokenContract.methods.checkInvestement(account).call().then((investement: number) => {
+                  setUserInvestment((investement / 10 ** 18));
+                }).catch((error: any) => {
+                  console.error('Error fetching token balance:', error);
+                  setUserInvestment(0);
+                });
+              });
+              // setAvgPrice((userInvestment)+((userTokens-userTokensPurchased)*(poolValue/totalSupply))/userTokens)
+            }
+            else{
+              // setTokenOptions(["Please connect a wallet on a supported chain"])
+            }
+          }
+        } catch (error) {
+          console.error('Error fetching selected chain:', error);
+        }
+      }
+    };
+
+    fetchUserStats();
+  }, [web3?.currentProvider]);
 
   return (
     <section>
@@ -61,7 +173,7 @@ export default function HeroHome() {
                   <path className="stroke-current text-purple-100" d="M26 28h12M26 32h12M26 36h5" strokeWidth="2" strokeLinecap="square" />
                 </svg>
                 <h4 className="h4 mb-2">DegenPlays Tokens</h4>
-                <p className="text-lg text-gray-400 text-center">{tokenBalance}</p><p>DegenPlays</p>
+                <p className="text-lg text-gray-400 text-center">{userTokens}</p><p>DegenPlays</p>
               </div>
 
               {/* 2nd item */}
@@ -69,24 +181,39 @@ export default function HeroHome() {
                 <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="400"></div>
                 <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                   <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
-                  <g fill="none" fillRule="evenodd">
-                    <path className="stroke-current text-purple-300" d="M40 22a2 2 0 012 2v16a2 2 0 01-2 2H24a2 2 0 01-2-2V24a2 2 0 012-2" strokeWidth="2" strokeLinecap="square" />
-                    <path className="stroke-current text-purple-100" strokeWidth="2" strokeLinecap="square" d="M36 32l-4-3-4 3V22h8z" />
-                  </g>
+                  {/* <ellipse id="shape0" transform="translate(3.36, 1.88999998720413)" rx="20" ry="20" cx="30" cy="30" fill="#e7e767" fill-rule="evenodd" stroke="#c4c443" stroke-width="1.2" stroke-linecap="square" stroke-linejoin="bevel"/>
+                  <text id="shape0" transform="translate(24, 43)" fill="#beb619" stroke="none" stroke-width="2" stroke-linecap="square" stroke-linejoin="bevel" font-size="30" font-size-adjust="0.422977" letter-spacing="0"><tspan x="0">S</tspan></text><path id="shape1" transform="matrix(1.06241708307128 0 0 0.995758863418599 6.00000000000002 45.295873015873)" fill="none" stroke="#beb623" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2" d="M0 0L0 6.48"/><path id="shape0" transform="matrix(1.06241705768358 0 0 0.995758839623779 6.96000000000002 45.3233557351109)" fill="none" stroke="#beb623" stroke-width="0.48" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2" d="M0 0L0 6.48" />
+                  <path id="shape0" transform="translate(10, 48)" fill="#000000" fill-rule="evenodd" stroke="#000000" stroke-width="10" stroke-linecap="square" stroke-linejoin="miter" stroke-miterlimit="2" d="M0 5.32907e-15L45 0"/> */}
+                  {/* <g fill="none" fillRule="evenodd"> */}
+                    {/* {Attach_money()} */}
+                    {/* <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" /> */} */}
+                    <svg className="stroke-current text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 36 36"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#212121"></path></g></svg>
+                
+                    {/* <path className="stroke-current text-purple-300"  d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" />fill="#212121" */}
+
+                    {/* <path className="stroke-current text-purple-300" d="M40 22a2 2 0 012 2v16a2 2 0 01-2 2H24a2 2 0 01-2-2V24a2 2 0 012-2" strokeWidth="2" strokeLinecap="square" />
+                    <path className="stroke-current text-purple-100" strokeWidth="2" strokeLinecap="square" d="M36 32l-4-3-4 3V22h8z" /> */}
+                  {/* </g> */}
+		{/* <path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#212121"/> */}
+	
                 </svg>
                 <h4 className="h4 mb-2">Purchased Value</h4>
-                <p className="text-lg text-gray-400 text-center">XXXX</p><p> USD</p>
+                <p className="text-lg text-gray-400 text-center">{userInvestment}</p><p> USD</p>
               </div>
 
               {/* 3rd item */}
               <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
                 <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                   <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
-                  <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />
-                  <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" />
+                  
+                  {/* {Attach_money()} */}
+                  <svg className="stroke-current text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 36 36"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#212121"></path></g></svg>
+                  {/* <svg xmlns="http://www.w3.org/2000/svg" ><symbol id="icon-attach_money" viewBox="0 0 24 24"><g class="nc-icon-wrapper"><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="currentColor" stroke="none"></path></g></symbol></svg> */}
+                  {/* <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />
+                  <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" /> */}
                 </svg>
                 <h4 className="h4 mb-2">Curent Value</h4>
-                <p className="text-lg text-gray-400 text-center">XXXX</p><p> USD</p>
+                <p className="text-lg text-gray-400 text-center">{userTokens*(poolValue/totalSupply)}</p><p> USD</p>
               </div>
 
             </div> 

@@ -113,8 +113,9 @@ export default function TokenStats() {
               <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
                 <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                   <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
-                  <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />
-                  <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" />
+                  {/* <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />
+                  <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" /> */}
+                  <svg className="stroke-current text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 36 36"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#212121"></path></g></svg>
                 </svg>
                 <h4 className="h4 mb-2">Curent Pool Value</h4>
                 <p className="text-lg text-gray-400 text-center">{parseFloat(Web3.utils.fromWei((totalValue).toString(),'ether')).toFixed(4)}</p><p> USD</p>
@@ -136,8 +137,9 @@ export default function TokenStats() {
                         <div key={token.name} className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
                           <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
                             <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
-                            <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />
-                            <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" />
+                            {/* <path className="stroke-current text-purple-300" strokeWidth="2" strokeLinecap="square" d="M21 35l4 4 12-15" fill="none" fillRule="evenodd" />
+                            <path className="stroke-current text-purple-100" d="M42 29h-3M42 34h-7M42 39H31" strokeWidth="2" strokeLinecap="square" /> */}
+                            <svg className="stroke-current text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-7 -7 36 36"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#212121"></path></g></svg>
                           </svg>
                           <h4 className="h4 mb-2">{token.name}</h4>
                           <p className="text-lg text-gray-400 text-center">Balance: {parseFloat(Web3.utils.fromWei((token.balance).toString(),'ether')).toFixed(4)}</p><p> USD</p>

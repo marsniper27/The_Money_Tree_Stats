@@ -24,6 +24,7 @@
     "next-contentlayer": "^0.3.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-svg": "^16.1.17",
     "sharp": "^0.32.1",
     "typescript": "^5.0.4",
     "web3": "^1.10.0",
