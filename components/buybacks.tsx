@@ -105,8 +105,10 @@ export default function Stats() {
                   console.error('Error fetching token balance:', error);
                   setUserInvestment(0);
                 });
+                setAvgPrice(((userInvestment)+((userTokens-userTokensPurchased)*(poolValue/totalSupply)))/userTokens)
               });
-              setAvgPrice((userInvestment)+((userTokens-userTokensPurchased)*(poolValue/totalSupply))/userTokens)
+              setAvgPrice(((userInvestment)+((userTokens-userTokensPurchased)*(poolValue/totalSupply)))/userTokens)
+              // setAvgPrice((userInvestment)+((userTokens-userTokensPurchased)*(poolValue/totalSupply))/userTokens)
             }
             else{
               setTokenOptions(["Please connect a wallet on a supported chain"])
@@ -121,6 +123,7 @@ export default function Stats() {
     fetchUserStats();
   }, [web3?.currentProvider]);
 
+                // setAvgPrice((userInvestment)/userTokens)
   return (
     <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -129,7 +132,7 @@ export default function Stats() {
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">Current DegenPlays Value</h1>
-            <p className="text-xl text-gray-400">${poolValue/totalSupply} USD</p>
+            <p className="text-xl text-gray-400">${(poolValue/totalSupply).toFixed(4)} USD</p>
           </div>
 
           <div className="grid md:grid-cols-3 bg-gray-800 divide-y md:divide-y-0 md:divide-x divide-gray-700 px-6 md:px-0 md:py-8 text-center">
@@ -175,12 +178,14 @@ export default function Stats() {
             <p className="text-xl text-gray-400">${userAvgPrice/2} USD</p>
             <p className="text-xl text-gray-400">This is calculated as:</p>
             <p className="text-xl text-gray-400">(Average paid)/2</p>
+            <p className="text-xl text-gray-400">Total value ${((userAvgPrice/2)*userTokens).toFixed(4)} USD</p>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">Buyback rate after first 4 months</h1>
             <p className="text-xl text-gray-400">${poolValue/totalSupply} USD</p>
             <p className="text-xl text-gray-400">This is calculated as:</p>
             <p className="text-xl text-gray-400">(Current pool value)/(DegenPlays sold)</p>
+            <p className="text-xl text-gray-400">Total value ${((poolValue/totalSupply)*userTokens).toFixed(4)} USD</p>
           </div>
         </div>
       </div>
