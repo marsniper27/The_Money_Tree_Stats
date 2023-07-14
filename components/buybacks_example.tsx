@@ -93,7 +93,7 @@ export default function Stats() {
 
         {/* Section header */}
         <div className="max-w-3xl mx-auto text-center pb-4 md:pb-2">
-          <h1 className="h2 mb-4">Example if selling in first 4 months</h1>
+          <h1 className="h2 mb-4">Example if selling in first 4 months (if token value is under $1)</h1>
           {/* <p className="text-xl text-gray-400">1000 tokens purchased in ICO</p> */}
         </div>
 

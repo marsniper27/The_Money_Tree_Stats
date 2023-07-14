@@ -154,11 +154,11 @@ export default function Stats() {
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h2 mb-4">DegenPlays owned</h1>
-            <p className="text-xl text-gray-400">{(userTokens/10**18).toFixed(4)} DegenPlays</p>
+            <p className="text-xl text-gray-400">{(userTokens).toFixed(4)} DegenPlays</p>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">DegenPlays purchased through us</h1>
-            <p className="text-xl text-gray-400">{(userTokensPurchased/10**18).toFixed(4)} DegenPlays</p>
+            <p className="text-xl text-gray-400">{(userTokensPurchased).toFixed(4)} DegenPlays</p>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
             <h1 className="h2 mb-4">DegenPlays purchased through third-party</h1>
@@ -171,7 +171,7 @@ export default function Stats() {
             <p className="text-xl text-gray-400">(((DegenPlays from us)*(purchase price))+((Degens from 3rd-party)*((pool value)/DegenPlays sold)))/(DegenPlays owned)</p>
           </div>
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-8">
-            <h1 className="h2 mb-4">Buyback rate in first 4 months</h1>
+            <h1 className="h2 mb-4">Buyback rate in first 4 months (if token value is under $1)</h1>
             <p className="text-xl text-gray-400">${userAvgPrice/2} USD</p>
             <p className="text-xl text-gray-400">This is calculated as:</p>
             <p className="text-xl text-gray-400">(Average paid)/2</p>

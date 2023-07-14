@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import { useState,useEffect } from 'react';
 import { TIERS, supportedChains, TOKEN_ABI,TOKEN_ADDRESS} from '@/components/utils/config';
 import { useWeb3 } from '@/components/utils/Web3Context';
@@ -7,12 +8,13 @@ export default function PricingTables() {
   const web3 = useWeb3();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedTier, setSelectedTier] = useState(1);
-  const [tokenAmount, setTokenAmount ] = useState(0)
-  const [selectedToken, setSelectedToken ] = useState<any>('')
+  const [tokenAmount, setTokenAmount ] = useState(0);
+  const [selectedToken, setSelectedToken ] = useState<{ name: string; balance: number; allowance: number; decimals: number } | undefined>();
   const [selectedChain, setSelectedChain ] = useState<any>('')
   const [tokenOptions, setTokenOptions] = useState<any[]>([]);
+  const [approvePurchase, setApprovePurchase] = useState('Approve')
 
-  const fetchTokenBalance = async (token:any): Promise<{ balance: number; allowance: number } | undefined> => {
+  const fetchTokenBalance = async (token:any): Promise<{ balance: number; allowance: number; decimals: number} | undefined> => {
     if (web3){
       try {
         const accounts = await web3.eth.getAccounts();
@@ -29,7 +31,8 @@ export default function PricingTables() {
 
         return {
           balance: tokenBalance,
-          allowance: allowance
+          allowance: allowance,
+          decimals: decimals
         };
       } catch (error) {
         console.error('Error fetching token balance:', error);
@@ -59,15 +62,17 @@ export default function PricingTables() {
                     {
                       name: token.name,
                       balance: tokenData.balance,
-                      allowance: tokenData.allowance
+                      allowance: tokenData.allowance,
+                      decimals: tokenData.decimals
                     }
                   ]);
-                  if(selectedToken===''){
+                  if(selectedToken===undefined){
                     setSelectedToken(
                       {
                         name: token.name,
                         balance: tokenData.balance,
-                        allowance: tokenData.allowance
+                        allowance: tokenData.allowance,
+                        decimals: tokenData.decimals
                       });
                   }
                 }
@@ -94,10 +99,16 @@ export default function PricingTables() {
                 chain.tokens.map((token: any) => ({
                   name: token.name,
                   balance: 0,
-                  allowance: 0
+                  allowance: 0,
+                  decimals: 0
                 }))
               );
-              setSelectedToken(chain.tokens[0]);
+              setSelectedToken({
+                name: chain.tokens[0].name,
+                balance: 0,
+                allowance: 0,
+                decimals: 0,
+              });
             }
             else{
               setTokenOptions(["Please connect a wallet on a supported chain"])
@@ -119,17 +130,26 @@ export default function PricingTables() {
       try {
         const accounts = await web3.eth.getAccounts();
         const account = accounts[0];
+        const tokenAddress = selectedChain.tokens.find(
+          (token: { name: string }) => token.name === selectedToken.name
+        )?.address
         const tokenContract = new web3.eth.Contract(
           TOKEN_ABI,
-          supportedChains[selectedChain]?.tokens.find(
-            (token: any) => token.name === selectedToken
-          )?.address
+          tokenAddress
         );
-        if (selectedToken.allowance < total) {
+        const totalPrice = BigInt((total*10**selectedToken.decimals).toFixed(0))
+        if (selectedToken.allowance < totalPrice) {
           // Approve tokens
-          await tokenContract.methods.approve(TOKEN_ADDRESS, total).send({
+          tokenContract.methods.approve(TOKEN_ADDRESS, totalPrice-BigInt(selectedToken.allowance)).send({
             from: account
-          });
+          }).then(
+            setSelectedToken((prevOptions) => ({
+              ...prevOptions,
+              allowance: Number(totalPrice),
+              name: prevOptions ? prevOptions.name : '',
+              balance: prevOptions ? prevOptions.balance : 0,
+              decimals: prevOptions ? prevOptions.decimals : 0,
+            })));
   
           // Listen for the Approval event to confirm the approval transaction
           tokenContract.once(
@@ -146,6 +166,14 @@ export default function PricingTables() {
                 console.error("Error confirming approval:", error);
               } else {
                 console.log("Approval confirmed:", event);
+                setSelectedToken((prevOptions) => ({
+                  ...prevOptions,
+                  allowance: Number(totalPrice),
+                  name: prevOptions ? prevOptions.name : '',
+                  balance: prevOptions ? prevOptions.balance : 0,
+                  decimals: prevOptions ? prevOptions.decimals : 0,
+                }));
+                setApprovePurchase("Purchase Tokens")
   
                 // The approval transaction is confirmed, continue with the purchase confirmation
                 confirmPurchase();
@@ -172,8 +200,8 @@ export default function PricingTables() {
           TOKEN_ABI,
           TOKEN_ADDRESS
         );
-
-        await tokenContract.methods.icoPurchase(tokenAmount,selectedChain.tokens.find((token: any) => token.name === selectedToken)?.address).send({
+        const purchaseAmount = BigInt(tokenAmount) *  BigInt(10 ** 18);
+        await tokenContract.methods.icoPurchase(purchaseAmount,selectedChain.tokens.find((token: any) => token.name === selectedToken.name)?.address).send({
           from: account
         });
       }
@@ -259,7 +287,7 @@ export default function PricingTables() {
               {/* Pricing table 3 */}
               <div className="relative flex flex-col h-full p-6 bg-gray-800" data-aos="fade-up" data-aos-delay="800">
                 <div className="mb-4 pb-4 border-b border-gray-700">
-                  <div className="h4 text-purple-600 mb-1">{TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  3).minAmount}+ DegenPLays</div>
+                  <div className="h4 text-purple-600 mb-1">{TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  3).minAmount}-{TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  3).maxAmount} DegenPLays</div>
                   <div className="inline-flex items-baseline mb-2">
                     <span className="text-2xl md:text-3xl font-medium text-gray-400">$</span>
                     <span className="h2">{(TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  3).price).toFixed(2)}</span>
@@ -303,7 +331,20 @@ export default function PricingTables() {
                   className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-600 text-center text-lg"
                   value={tokenAmount}
                   min={TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).minAmount}
-                  onChange={(e) => setTokenAmount(parseInt(e.target.value))}
+                  max={TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).maxAmount}
+                  onChange={(e) => {
+                      if(parseInt(e.target.value) < TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).minAmount){
+                        setTokenAmount(TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).minAmount)
+                      }
+                      else if(parseInt(e.target.value) > TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).maxAmount){
+                        setTokenAmount(TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).maxAmount)
+                      }
+                      else{
+                        setTokenAmount(parseInt(e.target.value))
+                        setApprovePurchase(selectedToken?.allowance ?? 0 < (TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).price * parseInt(e.target.value)*10**(selectedToken?.decimals ?? 0)) ? "Approve Tokens" : "Purchase Tokens")
+                      }
+                    }
+                  }
                 />
               </div> 
               <div className="mb-4">
@@ -318,7 +359,7 @@ export default function PricingTables() {
               </div>
               <select
                 className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-600 text-center text-lg"
-                value={selectedToken.name}
+                value={selectedToken?.name ?? ''}
                 onChange={(e) => {
                   const tokenName = e.target.value.split(' ')[0]
                   setSelectedToken(tokenOptions.find((token)=> token.name === tokenName))
@@ -326,22 +367,24 @@ export default function PricingTables() {
                 }
               >
                 {tokenOptions.map((option) => (
-                  <option key={option.id} value={option.name}>
+                  <option key={option.name} value={option.name}>
                     {`${option.name} Balance: ${option.balance}`} {/* Display token name and balance */}
                   </option>
                 ))}
               </select>
-              {selectedToken.balance >= (TIERS.find((tier: { tierNum: number }) => tier.tierNum === selectedTier).price * tokenAmount)?
+
+              {selectedToken?.balance ?? 0 >= (TIERS.find((tier: { tierNum: number }) => tier.tierNum === selectedTier).price * tokenAmount) ? (
                 <button
                   type="submit"
                   className="btn-sm text-white bg-purple-600 hover:bg-purple-700"
                   onClick={(e) => handleConfirm(e, (TIERS.find((tier: { tierNum: number }) => tier.tierNum === selectedTier).price * tokenAmount))}
                 >
-                  {selectedToken.allowance < (TIERS.find((tier: { tierNum: number }) => tier.tierNum ===  selectedTier).price * tokenAmount) ? "Approve Tokens" : "Purchase Tokens"}
+                  {approvePurchase}
                 </button>
-              :
-              <>Not enough {selectedToken.name}</>
-              }
+              ) : (
+                <>Not enough {selectedToken?.name ?? ''}</>
+              )}
+              
               <button
                 type="button"
                 className="btn-sm text-gray-400 ml-2"
