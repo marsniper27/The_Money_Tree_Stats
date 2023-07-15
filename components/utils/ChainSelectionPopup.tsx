@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface ChainSelectionPopupProps {
-  supportedChains: { id: number; name: string; rpcUrl: string }[];
+  selectedChain: { id: number; name: string; rpcUrl: string }[];
   onSelectChain: (chainId: number) => void;
   closeModal: () => void;
 }

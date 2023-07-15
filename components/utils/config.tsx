@@ -2,8 +2,10 @@ import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { Contract } from 'web3-eth-contract';
 export const STAGE = process.env.REACT_APP_STAGE;
-export const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS || '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';//'0x2d7882beDcbfDDce29Ba99965dd3cdF7fcB10A1e';
-export const POOL_ADDRESS = process.env.REACT_POOL_ADDRESS ||'0x70997970C51812dc3A010C7d01b50e0d17dc79C8';//'0xf31318D5eD9E6d36fbE36077cAf1CD865Ba65B49';
+export const TOKEN_ADDRESS = process.env.REACT_APP_TOKEN_ADDRESS ? process.env.REACT_APP_TOKEN_ADDRESS: '0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512';//'0x2d7882beDcbfDDce29Ba99965dd3cdF7fcB10A1e';
+export const POOL_ADDRESS = process.env.REACT_APP_POOL_ADDRESS ? process.env.REACT_APP_POOL_ADDRESS:'0x70997970C51812dc3A010C7d01b50e0d17dc79C8';//'0xf31318D5eD9E6d36fbE36077cAf1CD865Ba65B49';
+export const ICO_STATUS = process.env.REACT_APP_ICO_STATUS ? process.env.REACT_APP_ICO_STATUS: 'false';
+export const FIRST_FOUR_MONTHS = process.env.REACT_APP_FIRST_FOUR_MONTHS ? process.env.REACT_APP_FIRST_FOUR_MONTHS: 'true';
 export const TOKEN_ABI: AbiItem[] = process.env.REACT_APP_TOKEN_ABI
 ? JSON.parse(process.env.REACT_APP_TOKEN_ABI)
 : [
@@ -1508,19 +1510,23 @@ export let supportedChains =[
                   name:"USDT",
                   address:"0x5FbDB2315678afecb367f032d93F642f64180aa3",
                   contract:null as Contract | null,
-                  balance:null
+                  balance:null,
+                  decimals:null
+
               },
               // {
               //     name:"USDT",
               //     address:"0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
               //     contract:null as Contract | null,
-              //     balance:null
+              //     balance:null,
+              //     decimals:null
               // },
               {
                   name:"DAI",
                   address:"0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
                   contract:null as Contract | null,
-                  balance:null
+                  balance:null,
+                  decimals:null
               }
             ],
         web3Instance: null as Web3 | null,
@@ -1536,19 +1542,22 @@ export let supportedChains =[
     //               name:"USDC",
     //               address:"0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
     //               contract:null as Contract | null,
-    //               balance:null
+    //               balance:null,
+              //     decimals:null
     //           },
     //           {
     //               name:"USDT",
     //               address:"0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
     //               contract:null as Contract | null,
-    //               balance:null
+    //               balance:null,
+              //     decimals:null
     //           },
     //           {
     //               name:"DAI",
     //               address:"0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
     //               contract:null as Contract | null,
-    //               balance:null
+    //               balance:null,
+              //     decimals:null
     //           }],
     //     web3Instance: null as Web3 | null,
     //     currentSupply: null,
@@ -1563,19 +1572,22 @@ export let supportedChains =[
     //               name:"USDC",
     //               address:"0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
     //               contract:null as Contract | null,
-    //               balance:null
+    //               balance:null,
+              //     decimals:null
     //           },
     //           {
     //               name:"USDT",
     //               address:"0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
     //               contract:null as Contract | null,
-    //               balance:null
+    //               balance:null,
+              //     decimals:null
     //           },
     //           {
     //               name:"DAI",
     //               address:"0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
     //               contract:null as Contract | null,
-    //               balance:null
+    //               balance:null,
+              //     decimals:null
     //           }],
     //         web3Instance: null as Web3 | null,
     //         currentSupply: null,
@@ -1590,19 +1602,22 @@ export let supportedChains =[
     //             name:"USDC",
     //             address:"0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
     //             contract:null as Contract | null,
-    //             balance:null
+    //             balance:null,
+              //     decimals:null
     //         },
     //         {
     //             name:"USDT",
     //             address:"0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
     //             contract:null as Contract | null,
-    //             balance:null
+    //             balance:null,
+              //     decimals:null
     //         },
     //         {
     //             "name":"DAI",
     //             "address":"0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
     //             contract:null as Contract | null,
-    //             balance:null
+    //             balance:null,
+              //     decimals:null
     //         }],
     //     web3Instance: null as Web3 | null,
     //     currentSupply: null,
@@ -1617,19 +1632,22 @@ export let supportedChains =[
     //             name:"USDC",
     //             address:"0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
     //             contract:null as Contract | null,
-    //             balance:null
+    //             balance:null,
+              //     decimals:null
     //         },
     //         {
     //             name:"USDT",
     //             address:"0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
     //             contract:null as Contract | null,
-    //             balance:null
+    //             balance:null,
+              //     decimals:null
     //         },
     //         {
     //             name:"DAI",
     //             address:"0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
     //             contract:null as Contract | null,
-    //             balance:null
+    //             balance:null,
+              //     decimals:null
     //         }],
     //     web3Instance: null as Web3 | null,
     //     currentSupply: null,
@@ -1644,19 +1662,22 @@ export let supportedChains =[
     //             name:"USDC",
     //             address:"0x0FA8781a83E46826621b3BC094Ea2A0212e71B23",
     //             contract:null as Contract | null,
-    //             balance:null
+    //             balance:null,
+              //     decimals:null
     //         },
     //         {
     //             name:"USDT",
     //             address:"0xA02f6adc7926efeBBd59Fd43A84f4E0c0c91e832",
     //             contract:null as Contract | null,
-    //             balance:null
+    //             balance:null,
+              //     decimals:null
     //         },
     //         {
     //             name:"DAI",
     //             address:"0xd393b1E02dA9831Ff419e22eA105aAe4c47E1253",
     //             contract:null as Contract | null,
-    //             balance:null
+    //             balance:null,
+              //     decimals:null
     //         }],
     //     web3Instance: null as Web3 | null,
     //     currentSupply: null,
