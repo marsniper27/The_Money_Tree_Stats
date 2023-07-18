@@ -374,7 +374,7 @@ export default function HeroHome() {
                     Amount
                   </label>
                   <input
-                    type="number"
+                    type="float"
                     className="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-600 text-center text-lg"
                     value={tokenAmount}
                     onChange={(e) => {
