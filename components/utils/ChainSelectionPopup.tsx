@@ -1,7 +1,8 @@
+import { Any } from '@sterliakov/tstron/lib/src/proto/google/protobuf/any';
 import React from 'react';
 
 interface ChainSelectionPopupProps {
-  selectedChain: { id: number; name: string; rpcUrl: string }[];
+  supportedChains: { id: number; name: string; rpcUrl: string }[];
   onSelectChain: (chainId: number) => void;
   closeModal: () => void;
 }
@@ -22,7 +23,7 @@ const ChainSelectionPopup: React.FC<ChainSelectionPopupProps> = ({
         <h3 className="text-lg font-semibold mb-4 text-gray-300">Unsupported Chain</h3>
         <p>Please select a supported chain:</p>
         <ul className="mt-4 space-y-2">
-          {supportedChains.map((chain) => (
+          {supportedChains.map((chain :{ id: number; name: string; rpcUrl: string }) => (
             <li
               className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-2 py-2 px-4 rounded"
               key={chain.id}

@@ -51,7 +51,7 @@ const SellDegen: React.FC<SellDegenProps> = ({
           min={0}
           max={degenPlaysOwned}
           onChange={(e) => {
-            setTokenAmount(e.target.value)
+            setTokenAmount(parseFloat(e.target.value))
           }}
         />
         <div className="mb-4">
