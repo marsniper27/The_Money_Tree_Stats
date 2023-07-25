@@ -17,9 +17,6 @@ export default function Ads() {
         <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="https://qliothon.com/#/?code=eDBaWt"  target="_blank" rel="noopener noreferrer">Qliothon</a>
       </div>
       <div data-aos="fade-up" data-aos-delay="400">
-        <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="https://startifytrade.com/ref/PNOM1DXWHL407"  target="_blank" rel="noopener noreferrer">Startify</a>
-      </div>
-      <div data-aos="fade-up" data-aos-delay="400">
         <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="https://alligatorcore.ai/register/144yXWkVMiMSE8"  target="_blank" rel="noopener noreferrer">aligator core</a>
       </div>
       <div>
