@@ -23,7 +23,7 @@ export default function Ads() {
         <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="https://alligatorcore.ai/register/144yXWkVMiMSE8"  target="_blank" rel="noopener noreferrer">aligator core</a>
       </div>
       <div>
-        <a href="https://poradex.com/ref/marsniper27" target="_blank"><img src="https://poradex.com/assets/banners/728.gif"></a>
+        <a href="https://poradex.com/ref/marsniper27" target="_blank"><img src="https://poradex.com/assets/banners/728.gif"/></a>
       </div>
     </div>
   );
