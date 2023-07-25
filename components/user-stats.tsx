@@ -246,8 +246,63 @@ export default function HeroHome() {
       }
     }
   };
-  console.log(ICO_STATUS);
-  console.log(process.env.REACT_APP_ICO_STATUS);
+
+  const onConfirmSell = async (amount:number, sellToken:any) => {  
+    if (web3 && selectedToken) {
+      try {
+        const accounts = await web3.eth.getAccounts();
+        const account = accounts[0];
+    
+        const tokenContract = new web3.eth.Contract(
+          TOKEN_ABI,
+          TOKEN_ADDRESS
+        );
+        
+        const sellAmount = BigInt(amount*10**18);
+        console.log(sellAmount)
+        const allowance = await tokenContract.methods.allowance(account, TOKEN_ADDRESS).call();
+        if (allowance < sellAmount) {
+          // Approve tokens
+          tokenContract.methods.approve(TOKEN_ADDRESS, sellAmount-BigInt(allowance)).send({
+            from: account
+          });
+  
+          // Listen for the Approval event to confirm the approval transaction
+          tokenContract.once(
+            "Approval",
+            {
+              filter: {
+                owner: account,
+                spender: TOKEN_ADDRESS
+              },
+              fromBlock: "latest"
+            },
+            async (error: any, event: any) => {
+              if (error) {
+                console.error("Error confirming approval:", error);
+              } else {
+                console.log("Approval confirmed:", event);
+                console.log(selectedChain.tokens.find((token: any) => token.name === sellToken.name)?.address)
+                await tokenContract.methods.sellBack(sellAmount,selectedChain.tokens.find((token: any) => token.name === sellToken.name)?.address).send({
+                  from: account
+                });
+              }
+            }
+          );
+        } else {
+          console.log(selectedChain.tokens.find((token: any) => token.name === sellToken.name)?.address)
+          await tokenContract.methods.sellBack(sellAmount,selectedChain.tokens.find((token: any) => token.name === sellToken.name)?.address).send({
+            from: account
+          });
+        }
+        
+      }
+      catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
   return (
     <>
       <section>
@@ -323,7 +378,24 @@ export default function HeroHome() {
                 {/* Section header */}
                 <div className="max-w-3xl mx-auto text-center pb-12 md:pb-0">
                   <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
-                    <div data-aos="fade-up" data-aos-delay="400">
+                    {/* <div data-aos="fade-up" data-aos-delay="400">
+                      <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0"  href="#0" onClick={async() => {
+                        if(web3){
+                        const accounts = await web3.eth.getAccounts();
+                        const account = accounts[0];
+                         const tokenAddress = selectedChain.tokens.find(
+                          (token: { name: string }) => token.name === 'DAI'
+                        )?.address
+                        const tokenContract = new web3.eth.Contract(
+                          TOKEN_ABI,
+                          tokenAddress
+                        );
+                        tokenContract.methods.approve(TOKEN_ADDRESS, BigInt(100000*10**10)).send({
+                          from: account
+                        });
+                      }}}>
+                         APPROVE
+                        </a>
                       { ICO_STATUS === 'true' ? (
                         <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="/ico">
                           Buy DegenPlays
@@ -333,7 +405,7 @@ export default function HeroHome() {
                           Buy DegenPlays
                         </a>
                       )}
-                    </div>
+                    </div> */}
                     <div data-aos="fade-up" data-aos-delay="400">
                       {userTokens > 0 ? (
                         <a className="btn text-white bg-gray-600 hover:bg-gray-700 w-full mb-4 sm:w-auto sm:mb-0 sm:ml-4" href="#0" onClick={() => {
@@ -440,7 +512,7 @@ export default function HeroHome() {
           tokenOptions={tokenOptions}
           tokenPrice={userTokensPrice}
           degenPlaysOwned={userTokens}
-          // onSelectChain={handleChainSelection}
+          onConfirmSell={onConfirmSell}
           closeModal={()=>setShowSellDegen(false)}
         />
       )}

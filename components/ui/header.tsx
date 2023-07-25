@@ -105,37 +105,37 @@ export default function Header() {
     }
   };
 
+  const fetchAccounts = async () => {
+    if (web3) {
+      const accounts = await web3.eth.getAccounts();
+      setAccounts(accounts);
+    }
+  };
+  
+  const handleChainChanged = (chainId: string) => {
+    const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id === parseInt(chainId, 16));
+    if (isChainSupported) {
+      setConnectedChain(supportedChains.find((chain: { id: number }) => chain.id === parseInt(chainId, 16)));
+      // Continue with the application flow
+    } else {
+      // Show supported chains in a popup
+      setShowChainSelection(true);
+    }
+  };
+  
   useEffect(() => {
-    const fetchAccounts = async () => {
-      if (web3) {
-        const accounts = await web3.eth.getAccounts();
-        setAccounts(accounts);
-      }
-    };
-
-    const handleChainChanged = (chainId: string) => {
-      const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
-      if (isChainSupported) {
-        setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(chainId, 16)));
-        // Continue with the application flow
-      } else {
-        // Show supported chains in a popup
-        setShowChainSelection(true);
-      }
-    };
-
     if ((window as any).ethereum) {
       (window as any).ethereum.on('chainChanged', handleChainChanged);
     }
+  
+    fetchAccounts();
   
     return () => {
       if ((window as any).ethereum) {
         (window as any).ethereum.removeListener('chainChanged', handleChainChanged);
       }
     };
-
-    fetchAccounts();
-  }, [web3]);
+  }, [web3]); // Add web3 to the dependency array
 
   const handleWalletChange =(event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedWallet(event.target.value);

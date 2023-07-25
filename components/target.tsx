@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import TargetImage from '@/public/images/features-02-image.png'
+import TargetImage from '@/public/images/features-02-image2.png'
 
 export default function Target() {
   return (
@@ -20,7 +20,7 @@ export default function Target() {
 
               {/* Image */}
               <div className="max-w-xl md:max-w-none md:w-full mx-auto md:col-span-5 lg:col-span-6 mb-8 md:mb-0 rtl" data-aos="fade-right" data-aos-delay="200" data-aos-anchor="[data-aos-id-target]">
-                <Image className="mx-auto md:max-w-none" src={TargetImage} width={540} height={520} alt="Features 02" />
+                <Image className="mx-auto md:max-w-none" src={TargetImage} width={540} height={540} alt="Features 02" />
               </div>
 
               {/* Content */}
