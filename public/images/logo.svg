@@ -7,6 +7,9 @@
    id="svg57"
    sodipodi:docname="logo.svg"
    inkscape:version="1.2 (dc2aedaf03, 2022-05-15)"
+   inkscape:export-filename="logo.png"
+   inkscape:export-xdpi="633.35999"
+   inkscape:export-ydpi="633.35999"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -25,8 +28,8 @@
      inkscape:deskcolor="#505050"
      showgrid="false"
      inkscape:zoom="4.2907801"
-     inkscape:cx="66.887603"
-     inkscape:cy="32.861157"
+     inkscape:cx="58.963637"
+     inkscape:cy="-22.83967"
      inkscape:window-width="2560"
      inkscape:window-height="1369"
      inkscape:window-x="-8"
@@ -291,14 +294,14 @@
          stroke-opacity="1"><tspan
            x="2.4921875"
            y="82.286776"
-           id="tspan403"><tspan
+           id="tspan345"><tspan
              style="font-family:'Helvetica LT Narrow';-inkscape-font-specification:'Helvetica LT Narrow'"
-             id="tspan401">DEGENPLAYS</tspan></tspan><tspan
+             id="tspan343">DEGENPLAYS</tspan></tspan><tspan
            x="2.4921875"
            y="118.49185"
-           id="tspan407"><tspan
+           id="tspan349"><tspan
              style="font-family:'Helvetica LT Narrow';-inkscape-font-specification:'Helvetica LT Narrow'"
-             id="tspan405">S</tspan></tspan></text>
+             id="tspan347">S</tspan></tspan></text>
       <g
          stroke-linecap="round"
          fill="url(#1688062954149-207408_linearGradient6464)"
