@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import HeroImage from '@/public/images/hero-image-01.jpg'
+import Logo from '@/public/images/logo.png'
 
 export default function HeroFeatures() {
   return (
@@ -28,7 +29,7 @@ export default function HeroFeatures() {
             <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">DegenPlays does the work so you dont have to.</p>
           </div>
           {/* Image */}
-          <Image className="mx-auto" src={HeroImage} width={768} height={432} alt="Hero" priority data-aos="fade-up" data-aos-delay="400" />
+          <Image className="mx-auto" src={Logo} width={400} alt="Hero" priority data-aos="fade-up" data-aos-delay="400" />
         </div>
 
       </div>
