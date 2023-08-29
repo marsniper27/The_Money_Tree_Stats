@@ -77,3 +77,55 @@
 .form-radio {
     @apply text-purple-600;
 }
+
+.tree-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .tree-row {
+    display: flex;
+    align-items: center;
+  }
+  
+  .tree-node-box {
+    border: 1px solid #333;
+    padding: 10px;
+    margin: 0 10px;
+  }
+  
+  .tree-node {
+    font-size: 16px;
+    text-align: center;
+  }
+  
+  .tree-connector {
+    border-top: 1px solid #333;
+    flex: 1;
+    height: 20px;
+  }
+  
+  /* Add additional styling as needed */
+  /* Add this style for the top node */
+.tree-node-copy {
+    font-size: 16px;
+    text-align: center;
+    cursor: pointer;
+    padding: 10px;
+    border: 1px solid #333;
+    background-color: #f0f0f0;
+  }
+
+  .sidebar {
+    width: 25%; /* Adjust as needed */
+    height: 65vh; /* Set the sidebar's height to 100% of the viewport height */
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    background-color: #1a1919; /* Sidebar background color */
+    padding: 16px; /* Add some padding for spacing */
+  }
+
+  .dark-font-color {
+    color: #333; /* Use the color code you prefer */
+  }

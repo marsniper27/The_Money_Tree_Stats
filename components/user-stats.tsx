@@ -105,7 +105,8 @@ export default function HeroHome() {
           ) : null}
         {!isConnecting && !isDisconnected &&(
                 <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-                  <CopyToClipboardDiv text={"https://themoneytree.io/"+address} />
+                  <h4 className="h4 mb-2">Referal Link</h4>
+                  <CopyToClipboardDiv text={""+address} />
                   <h1 className="h1 mb-4" data-aos="fade-up">User Stats</h1>
                   {userData && userData[1] ?(
                     <div>

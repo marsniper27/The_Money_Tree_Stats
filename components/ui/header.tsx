@@ -36,7 +36,7 @@ export default function Header() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="/howItWorks" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
+                  <Link href="/treeGenerator" className="text-gray-300 hover:text-gray-200 px-4 py-2 flex items-center transition duration-150 ease-in-out">
                     Tree Generator
                   </Link>
                 </li>

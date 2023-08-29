@@ -9,7 +9,7 @@ const CopyToClipboardDiv: React.FC<CopyToClipboardDivProps> = ({ text }) => {
 
   const copyToClipboard = () => {
     const tempTextArea = document.createElement('textarea');
-    tempTextArea.value = text;
+    tempTextArea.value = "https://themoneytree.io/"+text;
     document.body.appendChild(tempTextArea);
     tempTextArea.select();
     document.execCommand('copy');
@@ -23,7 +23,6 @@ const CopyToClipboardDiv: React.FC<CopyToClipboardDivProps> = ({ text }) => {
   return (
     <div style={{ cursor: 'pointer' }}>
       <div onClick={copyToClipboard}>
-        <h4 className="h4 mb-2">Referal Link</h4>
         <h4 className="h4 mb-2">Click to Copy: {text}</h4>
       </div>
       {copied && <div>Copied to clipboard!</div>}
