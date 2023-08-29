@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Web3 from 'web3';
 import { useWeb3 } from '@/components/utils/Web3Context';
 import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
-import { supportedChains } from '@/components/utils/config';
+// import { supportedChains } from '@/components/utils/config';
 import ChainSelectionPopup from '@/components/utils/ChainSelectionPopup';
 import Dropdown from '@/components/utils/dropdown';
 import { Web3Button } from '@web3modal/react'
@@ -74,14 +74,14 @@ export default function MobileMenu() {
         if (web3) {
           // Check if web3 is not null before calling setProvider
           web3.setProvider(provider);
-          const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
-          if (isChainSupported) {
-            setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
-            // Continue with the application flow
-          } else {
-            // Show supported chains in a popup
-            setShowChainSelection(true);
-          }
+          // const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
+          // if (isChainSupported) {
+          //   setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+          //   // Continue with the application flow
+          // } else {
+          //   // Show supported chains in a popup
+          //   setShowChainSelection(true);
+          // }
         }
       }
     } catch (error) {
@@ -122,14 +122,14 @@ export default function MobileMenu() {
     };
 
     const handleChainChanged = (chainId: string) => {
-      const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
-      if (isChainSupported) {
-        setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(chainId, 16)));
-        // Continue with the application flow
-      } else {
-        // Show supported chains in a popup
-        setShowChainSelection(true);
-      }
+      // const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(chainId, 16));
+      // if (isChainSupported) {
+      //   setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(chainId, 16)));
+      //   // Continue with the application flow
+      // } else {
+      //   // Show supported chains in a popup
+      //   setShowChainSelection(true);
+      // }
     };
 
     if ((window as any).ethereum) {
@@ -148,14 +148,14 @@ export default function MobileMenu() {
   const handleWalletChange =(event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedWallet(event.target.value);
     connectWallet(event.target.value);
-    const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(connectedChainId, 16));
-    if (isChainSupported) {
-      setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
-      // Continue with the application flow
-    } else {
-      // Show supported chains in a popup
-      setShowChainSelection(true);
-    }
+    // const isChainSupported = supportedChains.some((chain: { id: number }) => chain.id ===  parseInt(connectedChainId, 16));
+    // if (isChainSupported) {
+    //   setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+    //   // Continue with the application flow
+    // } else {
+    //   // Show supported chains in a popup
+    //   setShowChainSelection(true);
+    // }
   };
 
   const handleChainSelection = async (selectedChain: number) => {
@@ -166,7 +166,7 @@ export default function MobileMenu() {
           method: 'wallet_switchEthereumChain',
           params: [{ chainId: "0x" + selectedChain.toString(16) }],
         });
-        setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
+        // setConnectedChain(supportedChains.find((chain:  { id: number}) => chain.id === parseInt(connectedChainId, 16)));
       } catch (error) {
         console.error('Error switching chain:', error);
       }
@@ -256,13 +256,13 @@ export default function MobileMenu() {
              )}
           </ul>
       </nav>
-      {showChainSelection  && (
+      {/* {showChainSelection  && (
         <ChainSelectionPopup
-          supportedChains={supportedChains}
+          // supportedChains={supportedChains}
           onSelectChain={handleChainSelection}
           closeModal={handleCloseModal}
         />
-      )}
+      )} */}
     </div>
   )
 }

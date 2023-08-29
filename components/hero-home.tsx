@@ -1,6 +1,3 @@
-import VideoThumb from '@/public/images/hero-image-01.jpg'
-import ModalVideo from '@/components/modal-video'
-import Logo from '@/public/images/logo.png'
 import Image from 'next/image'
 import Link from 'next/link'
 import MoneyTree from '@/public/images/moneytree-logo.svg'
