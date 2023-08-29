@@ -1,11 +1,8 @@
 'use client'
 import { useState, useEffect} from 'react';
 import { CONTRACT_ADDRESS, CONTRACT_ABI,TIERS,initializeWeb3Instances} from '@/components/utils/config';
-// import { useWeb3 } from '@/components/utils/Web3Context';
 import { useAccount,useContractRead  } from 'wagmi'
 import CopyToClipboardDiv from './utils/copyToClipboard'
-// import { set } from 'date-fns';
-// import UserInfo from './utils/fetchUserData'
 
 export default function HeroHome() {
   const [tier, setTier ] = useState<{ name: string; tierNum: number; maxPayout: number; price: number; users: number; percentage: number; poolValue: number, roiWinners:number  } | undefined>();
@@ -16,16 +13,27 @@ export default function HeroHome() {
   const [Tiers, setTiers] = useState<any[]>(TIERS)
   const [Balance, setBalance] = useState(0)
   const [totalUsers, setTotalUsers] = useState(0)
+  const [usersAddress, setUserAddress] = useState("")
+  const [isDisconnectedStats, setIsDisconnected] = useState(true)
+
+
   useEffect(() => {
-    initializeStats();
+    initializeStats("");
   }, []);
   
   useEffect(() => {
-    initializeStats();
+    initializeStats(address);
+    setIsDisconnected(false)
   }, [address]);
+
+  
+  useEffect(() => {
+    setIsDisconnected(isDisconnected)
+  }, [isDisconnected]);
   
   
-  async function initializeStats() {  
+  async function initializeStats(address:any) {  
+    setUserAddress(address)
     try {
       var web3Instance = await initializeWeb3Instances();
       const newTiers = [...TIERS];
@@ -63,17 +71,12 @@ export default function HeroHome() {
     }
   }
 
-  // const { data, isError, isLoading } = useContractRead({
-  //   address: "0xEaE382adf90e28603b9D9f49E4207bc5051370c9",
-  //   abi: CONTRACT_ABI,
-  //   functionName: 'userInfo',
-  //   args: ["0x1f42ad4c83ff23fd1a7bf5527fd74b731083cfab"],
-  // })
-  // const dataArray = data as [number, boolean, bigint, bigint, bigint, bigint, boolean, bigint];
-  // setUserData(dataArray)
-  // // const dataArray = data as [number, boolean, bigint, bigint, bigint, bigint, boolean, bigint];
-  // const [group, deposited, totalReceived, availableToClaim, numberOfReferrals, lastEpochAddReferrals, winner, depositTimestamp] = dataArray;
-  // // setTier(TIERS.find((tier: any) => tier.tierNum === group))
+  
+  const handleTextInputChange = (value: string) => {
+    initializeStats(value);
+    setIsDisconnected(false)
+  }
+
   return (
     <section>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
@@ -93,9 +96,17 @@ export default function HeroHome() {
 
         {/* Hero content */}
         <div className="relative pt-32 pb-10 md:pt-40 md:pb-4">
-          {isDisconnected ? (
+          {isDisconnectedStats ? (
             <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
               <div>Disconnected</div>
+              <input
+                key="usersAddress"
+                type="text"
+                className="w-full border border-gray-300 rounded px-2 py-1 mb-2 dark-font-color"
+                placeholder={`Enter Wallet Address or conect wallet`}
+                value={usersAddress}
+                onChange={(event) => handleTextInputChange(event.target.value)}
+              />
             </div>
           ) : null}
           {isConnecting ? (
@@ -103,10 +114,18 @@ export default function HeroHome() {
               <p>Connecting...</p> 
             </div>
           ) : null}
-        {!isConnecting && !isDisconnected &&(
+        {!isConnecting && !isDisconnectedStats &&(
                 <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
+                  <input
+                    key="usersAddress"
+                    type="text"
+                    className="w-full border border-gray-300 rounded px-2 py-1 mb-2 dark-font-color text-center "
+                    placeholder={`Enter new address to get its stats`}
+                    value={usersAddress}
+                    onChange={(event) => handleTextInputChange(event.target.value)}
+                  />
                   <h4 className="h4 mb-2">Referal Link</h4>
-                  <CopyToClipboardDiv text={""+address} />
+                  <CopyToClipboardDiv text={""+usersAddress} />
                   <h1 className="h1 mb-4" data-aos="fade-up">User Stats</h1>
                   {userData && userData[1] ?(
                     <div>
@@ -123,8 +142,14 @@ export default function HeroHome() {
                         
                         </svg>
                         <h4 className="h4 mb-2">Investment</h4>
-                        <p className="text-lg text-gray-400 text-center">{tier?.price.toFixed(4)}</p>
-                        <p>USDT</p>
+                        {userData && userData[1] ?(
+                          <div>
+                            <p className="text-lg text-gray-400 text-center">{tier?.price.toFixed(4)}</p>
+                            <p>USDT</p>
+                          </div>
+                        ):(
+                          <p className="text-lg text-gray-400 text-center">No Active Deposit</p>
+                        )}
                       </div>
 
                       {/* 2nd item */}
@@ -152,7 +177,7 @@ export default function HeroHome() {
                         <h4 className="h4 mb-2">ROI Lottery Chance</h4>
                         <p className="text-lg text-gray-400 text-center">{tier && (
                                                                               <p className="text-lg text-gray-400 text-center">
-                                                                                {((1/((tier.users-tier.roiWinners)/4))*100).toFixed(4)}%
+                                                                                {((1/4)*100).toFixed(2)}%
                                                                               </p>
                                                                         )}</p>
                       </div> 

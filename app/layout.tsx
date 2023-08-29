@@ -4,6 +4,7 @@ import { Inter, Architects_Daughter } from 'next/font/google'
 
 import Header from '@/components/ui/header'
 import { Web3ContextProvider } from '@/components/utils/Web3ContextProvider';
+import Ads from '@/components/ads'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -36,6 +37,7 @@ export default function RootLayout({
             <div className="flex flex-col min-h-screen overflow-hidden">
               <Header />
               {children}
+              <Ads />
             </div>
           </body>
         </html>

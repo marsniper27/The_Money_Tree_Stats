@@ -10,7 +10,21 @@ export default function HeroFeatures() {
   const [numInputs, setNumInputs] = useState<number>(4);
   const [inputValues, setInputValues] = useState<string[]>(["Wallet 1","Wallet 2","Wallet 3","Wallet 4"]);
   const [trees, setTrees] = useState([{top:inputValues[0],left:inputValues[1],center:inputValues[2],right:inputValues[3]}]);
+  const [reinvest, setReinvest] = useState(false);
+  const [generateWallets, setGenerateWallets] = useState(false);
+  const [tier, setTier] = useState('Leaves');
+  
+  const handleDropdownChange = (event:any) => {
+    setTier(event.target.value);
+  };
 
+  const handleReinvestChange = (event:any) => {
+    setReinvest(event.target.checked);
+  };
+
+  const handleGenerateWalletsChange = (event:any) => {
+    setGenerateWallets(event.target.checked);
+  };
   
   const handleNumInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
@@ -64,6 +78,23 @@ export default function HeroFeatures() {
     }
   };
 
+  useEffect(() => {
+    function reinvestWallet() {
+      if(reinvest){
+        if(tier == "Leaves"){
+          setNumInputs(numInputs+1);
+        }
+      }
+      else{
+        if(tier == "Leaves"){
+          setNumInputs(numInputs-1);
+        }
+      }
+  }
+
+    reinvestWallet();
+  }, [reinvest]);
+
   return (
     <section className="relative">
 
@@ -111,6 +142,30 @@ export default function HeroFeatures() {
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
             <h1 className="h1 mb-4" data-aos="fade-up">Tree Structure Generator</h1>
             <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">Automatically create trees for you and your teams.</p>
+            <p className="text-xl text-gray-400" data-aos="fade-up" data-aos-delay="200">STILL A WORK IN PROGRESS.</p>
+            {/* <select className="dark-font-color" value={tier} onChange={handleDropdownChange}>
+              <option value="option1">Leaves</option>
+              <option value="option2">Stalk</option>
+              <option value="option3">Branch</option>
+            </select>
+            <div>
+              <input
+                type="checkbox"
+                id="reinvestCheckbox"
+                checked={reinvest}
+                onChange={handleReinvestChange}
+              />
+              <label htmlFor="myCheckbox">Allow Reinvesting for maxed out wallets </label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                id="generateWalletsCheckbox"
+                checked={generateWallets}
+                onChange={handleGenerateWalletsChange}
+              />
+              <label htmlFor="myCheckbox">Generate new wallets with payouts</label>
+            </div> */}
           </div>
           {/* Items */}
           {trees.map((item, index) => (

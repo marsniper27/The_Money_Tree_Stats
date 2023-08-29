@@ -32,8 +32,8 @@ export const TIERS = process.env.TIERS ? JSON.parse(process.env.TIERS): [
   {
     "name": "Stalk",
     "tierNum": 2,
-    "maxPayout": 1050*3,
-    "price": 1050,
+    "maxPayout": 1500*3,
+    "price": 1500,
     "users":0,
     "percentage":0.18,
     "poolValue":0,
