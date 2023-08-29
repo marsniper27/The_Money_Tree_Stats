@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import NotFoundImage from '@/public/images/404.jpg'
-import PageIllustration from '@/components/page-illustration'
 
 export default function NotFound() {
   return (

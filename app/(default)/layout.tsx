@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import AOS from 'aos'
 import 'aos/dist/aos.css'
 
-import PageIllustration from '@/components/page-illustration'
+// import PageIllustration from '@/components/page-illustration'
 import Footer from '@/components/ui/footer'
 
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
@@ -44,7 +44,7 @@ export default function DefaultLayout({
      <WagmiConfig config={wagmiConfig}>
       <main className="grow">
 
-        <PageIllustration />
+        {/* <PageIllustration /> */}
 
         {children}
 
