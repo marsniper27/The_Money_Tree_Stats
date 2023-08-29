@@ -128,6 +128,10 @@ export default function TokenStats() {
                           <p className="text-lg text-gray-400 text-center">{Math.floor(item.users*.25)}</p>
                         </div>
                         <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                          {/* <h4 className="h4 mb-2">Expected Payout Per User</h4> 
+                          <p className="text-lg text-gray-400 text-center">{(item.poolValue/(item.users-Math.floor(item.users*.25))/10**18).toFixed(4)}</p> */}
+                        </div>
+                        <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
                           <h4 className="h4 mb-2">Expected Payout Per User</h4> 
                           <p className="text-lg text-gray-400 text-center">{(item.poolValue/(item.users-Math.floor(item.users*.25))/10**18).toFixed(4)}</p>
                         </div>
