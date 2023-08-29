@@ -6,6 +6,8 @@ export default function TokenStats() {
   const [totalUsers, setTotalUsers] = useState(0)
   const [Tiers, setTiers] = useState<any[]>(TIERS)
   const [Balance, setBalance] = useState(0)
+  const [Traderbalance, setTraderBalance] = useState(0)
+  const [TraderAddress, setTraderAddress] = useState(0)
   const [poolValue, setPoolValue] = useState(0)
   
   useEffect(() => {
@@ -19,6 +21,12 @@ export default function TokenStats() {
 
       var balance = await web3Instance?.usdt.methods.balanceOf(CONTRACT_ADDRESS).call()    
       setBalance(balance)
+      
+      var TraderAddress = await web3Instance?.contract.methods.tradingAccount().call()    
+      setTraderAddress(TraderAddress)
+
+      var Traderbalance = await web3Instance?.usdt.methods.balanceOf(TraderAddress).call()    
+      setTraderBalance(Traderbalance)
 
       newTiers[0].users = await web3Instance?.contract.methods.stakersLengthByGroup(0).call();
       newTiers[1].users = await web3Instance?.contract.methods.stakersLengthByGroup(1).call();
@@ -95,6 +103,26 @@ export default function TokenStats() {
                 <h4 className="h4 mb-2">Curent Pool Value</h4>
                 <p className="text-lg text-gray-400 text-center">{(poolValue/10**18).toFixed(4)}</p><p> USDT</p>
               </div>
+              
+              {/* 4th item */}
+              <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                {/* <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                  <svg xmlns="http://www.w3.org/2000/svg" height="64" width="64" viewBox="-125 -1050 1200 1200"><g fill="#F7F7F7" ><path d="M212-241v-339h60v339h-60zm242 0v-339h60v339h-60zM80-121v-60h800v60H80zm608-120v-339h60v339h-60zM80-640v-53l400-228 400 228v53H80zm134-60h532-532zm0 0h532L480-852 214-700z"></path></g></svg>
+                </svg>
+                <h4 className="h4 mb-2">Curent Pool Value</h4>
+                <p className="text-lg text-gray-400 text-center">{(poolValue/10**18).toFixed(4)}</p><p> USDT</p> */}
+              </div>
+              
+              {/* 5th item */}
+              <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                  <svg xmlns="http://www.w3.org/2000/svg" height="64" width="64" viewBox="-125 -1050 1200 1200"><g fill="#F7F7F7" ><path d="M212-241v-339h60v339h-60zm242 0v-339h60v339h-60zM80-121v-60h800v60H80zm608-120v-339h60v339h-60zM80-640v-53l400-228 400 228v53H80zm134-60h532-532zm0 0h532L480-852 214-700z"></path></g></svg>
+                </svg>
+                <h4 className="h4 mb-2">Trading Account Balance</h4>
+                <p className="text-lg text-gray-400 text-center">{(Traderbalance/10**18).toFixed(4)}</p><p> USDT</p>
+              </div>
             </div>
           </div>
 
@@ -103,37 +131,62 @@ export default function TokenStats() {
             {/* Items */}
               {Tiers.map((item, index) => (
                 <div key={item.name} className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-                  <h1 className="h1 mb-4" data-aos="fade-up">{item.name}</h1>
+                  <h2 className="h2 mb-4" data-aos="fade-up">{item.name}</h2>
                   <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay={index * 200}>
-                  <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="200"></div>
+                    
                     {/* Items */}
-                    <div className="max-w-sm mx-auto grid gap-8 md:grid-cols-3 lg:gap-16 items-start md:max-w-none">
-                      {/* {item.tokens.map((token:any, index:number) => {
-                        let tokenContent; */}
-                        {/* return ( */}
-                        {/* <div key={token.name} className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400"> */}
-                          {/* <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-                           {tokenContent}
-                          </svg>*/}
-                        <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                    <div className="max-w-sm mx-auto grid md:grid-cols-3 lg:gap-4 items-start md:max-w-none">
+                      <div className="relative flex flex-col items-center mb-2" data-aos="fade-up">
+                        <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="200"></div>
+                          <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                            <g fill="none" fillRule="evenodd">
+                              <svg className="stroke-none text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-3.5 -3 30 30"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#F7F7F7"></path></g></svg>
+                            </g>
+                          </svg>
                           <h4 className="h4 mb-2">Pool Value</h4> 
                           <p className="text-lg text-gray-400 text-center">{(item.poolValue/10**18).toFixed(4)}</p><p> USDT</p>
                         </div>
-                        <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                        <div className="relative flex flex-col items-center mb-2" data-aos="fade-up">
+                          <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="200"></div>
+                          <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                            <g fill="none" fillRule="evenodd">
+                              <svg className="stroke-none text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-3.5 -3 30 30"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#F7F7F7"></path></g></svg>
+                            </g>
+                          </svg>
                           <h4 className="h4 mb-2">Pool Users</h4> 
                           <p className="text-lg text-gray-400 text-center">{(item.users)}</p>
                         </div>
-                        <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                        <div className="relative flex flex-col items-center mb-2" data-aos="fade-up" data-aos-delay="400">
+                          <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                            <g fill="none" fillRule="evenodd">
+                              <svg className="stroke-none text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-3.5 -3 30 30"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#F7F7F7"></path></g></svg>
+                            </g>
+                          </svg>
                           <h4 className="h4 mb-2">Expected Lottery Winners</h4> 
                           <p className="text-lg text-gray-400 text-center">{Math.floor(item.users*.25)}</p>
                         </div>
-                        <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                        <div className="relative flex flex-col items-center mb-2" data-aos="fade-up">
+                          <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="200"></div>
                           {/* <h4 className="h4 mb-2">Expected Payout Per User</h4> 
                           <p className="text-lg text-gray-400 text-center">{(item.poolValue/(item.users-Math.floor(item.users*.25))/10**18).toFixed(4)}</p> */}
                         </div>
-                        <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="400">
+                        
+                        <div className="relative flex flex-col items-center mb-2" data-aos="fade-up">
+                          <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="200"></div>
+                          
+                          <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                            <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                            <g fill="none" fillRule="evenodd">
+                              <svg className="stroke-none text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-3.5 -3 30 30"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#F7F7F7"></path></g></svg>
+                            </g>
+                          </svg>
                           <h4 className="h4 mb-2">Expected Payout Per User</h4> 
                           <p className="text-lg text-gray-400 text-center">{(item.poolValue/(item.users-Math.floor(item.users*.25))/10**18).toFixed(4)}</p>
+                        </div>
+                        <div className="relative flex flex-col items-center mb-2" data-aos="fade-up">
                         </div>
                         {/* </div> */}
                       {/* );

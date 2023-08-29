@@ -8,22 +8,9 @@ import CopyToClipboardDiv from './utils/copyToClipboard'
 // import UserInfo from './utils/fetchUserData'
 
 export default function HeroHome() {
-  // const { connectAsync } = useConnect();
-  // const web3 = useWeb3();
-  // const [tokenBalance, setTokenBalance] = useState('Loading...');
-  const [userTokens, setUserTokens ] = useState(0)
-  const [totalSupply, setTotalSupply ] = useState(0)
   const [tier, setTier ] = useState<{ name: string; tierNum: number; maxPayout: number; price: number; users: number; percentage: number; poolValue: number, roiWinners:number  } | undefined>();
   const [poolValue, setPoolValue ] = useState(0)
   const [userData, setUserData ] = useState<Array<any> | null>(null);
-  const [userInvestment, setUserInvestment ] = useState(0)
-  const [selectedChain, setSelectedChain ] = useState<any>('')
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tokenAmount, setTokenAmount ] = useState(0);
-  const [selectedToken, setSelectedToken ] = useState<{ name: string; balance: number; allowance: number; decimals: number } | undefined>();
-  const [tokenOptions, setTokenOptions] = useState<any[]>([]);
-  const [approvePurchase, setApprovePurchase] = useState('Approve')
-  const [showSellDegen, setShowSellDegen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [isError, setError] = useState(false);
   const [userTokensPrice, setUserTokensPrice ] = useState(0)
@@ -57,7 +44,7 @@ export default function HeroHome() {
         setTotalUsers(parseInt(newTiers[1].users)+parseInt(newTiers[2].users)+parseInt(newTiers[3].users));
         setPoolValue(balance*.62);
         
-        const data = await web3Instance?.contract.methods.userInfo("0x1f42ad4c83ff23fd1a7bf5527fd74b731083cfab").call()//address).call();
+        const data = await web3Instance?.contract.methods.userInfo(address).call()//address).call();
         console.log("Contract data:", data); // Check the data retrieved from the contract
         setUserData(data);
     
