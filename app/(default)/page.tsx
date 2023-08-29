@@ -1,5 +1,5 @@
 export const metadata = {
-  title: 'Home - DegenPlays',
+  title: 'Home - The Money Tree Stats',
   description: 'Page description',
 }
 
