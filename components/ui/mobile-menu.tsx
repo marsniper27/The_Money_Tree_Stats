@@ -8,6 +8,8 @@ import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { supportedChains } from '@/components/utils/config';
 import ChainSelectionPopup from '@/components/utils/ChainSelectionPopup';
 import Dropdown from '@/components/utils/dropdown';
+import { Web3Button } from '@web3modal/react'
+
 
 export default function MobileMenu() {
   const web3 = useWeb3();
@@ -219,23 +221,13 @@ export default function MobileMenu() {
             </Link>
           </li>
           <li>
-            <Link href="/howItWorks" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-              How It Works
-            </Link>
-          </li>
-          <li>
-            <Link href="/ico" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-              ICO
-            </Link>
-          </li>
-          <li>
             <Link href="/dashboard" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-              Dashboard
+              User Info
             </Link>
           </li>
           <li>
-            <Link href="/buyback" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
-              BuyBacks
+            <Link href="/generator" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
+              Tree Generator
             </Link>
           </li>
           <li>
@@ -257,8 +249,9 @@ export default function MobileMenu() {
                   <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={() => connectWallet("metamask")}>MetaMask</a>
               </li>
               <li data-aos="fade-up" data-aos-delay="400">
-                <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={() => connectWallet("walletconnect")}>WalletConnect</a>
-              </li>
+                {/* <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={() => connectWallet("walletconnect")}>WalletConnect</a> */}
+                <Web3Button />
+              </li> 
             </div>
              )}
           </ul>

@@ -2,6 +2,9 @@ import VideoThumb from '@/public/images/hero-image-01.jpg'
 import ModalVideo from '@/components/modal-video'
 import Logo from '@/public/images/logo.png'
 import Image from 'next/image'
+import Link from 'next/link'
+import MoneyTree from '@/public/images/moneytree-logo.svg'
+
 
 export default function HeroHome() {
   return (
@@ -26,30 +29,12 @@ export default function HeroHome() {
 
           {/* Section header */}
           <div className="max-w-3xl mx-auto text-center pb-12 md:pb-16">
-            {/* <h1 className="h1 mb-4" data-aos="fade-up">Degen Plays</h1> */}
-            <svg className="max-w-6xl mx-auto h1 mb-1" data-aos="fade-up" width="340" height="40" xmlns="http://www.w3.org/2000/svg"  viewBox="0 -40 2012.586 284.13"><g ><defs id="1688075462714-5868884_defs28"><path id="1688075462714-5868884_rect7184" d="M-30.411-20.44h277.936v172.495H-30.411z"></path><linearGradient id="1688075462714-5868884_linearGradient6450"><stop offset="0" id="1688075462714-5868884_stop6446" stopColor="#90603e" stopOpacity="1"></stop><stop offset=".504" id="1688075462714-5868884_stop6466" stopColor="#b3815c" stopOpacity="1"></stop><stop offset="1" id="1688075462714-5868884_stop6448" stopColor="#90603e" stopOpacity="1"></stop></linearGradient><path id="1688075462714-5868884_rect311" d="M2.493 55.525h161.028v36.206H2.493z"></path><linearGradient xlinkHref="#1688075462714-5868884_linearGradient6450" id="1688075462714-5868884_linearGradient6462" gradientUnits="userSpaceOnUse" x1="3.752" y1="70.281" x2="147.552" y2="70.281" spreadMethod="reflect"></linearGradient></defs><g id="1688075462714-5868884_layer1" transform="translate(0 -792.108)"><text  transform="translate(-96.736 -25.206) scale(12.8125)" id="1688075462714-5868884_text309" fontSize="29.333" white-space="pre" fill="url(#1688075462714-5868884_linearGradient6462)" fillOpacity="1" stroke="none" strokeOpacity="1"><tspan x="2.492" y="82.287" id="1688075462714-5868884_tspan8985"><tspan  id="1688075462714-5868884_tspan8983" fontFamily="Helvetica LT Narrow">DEGENPLAYS</tspan></tspan><tspan x="2.492" y="118.492" id="1688075462714-5868884_tspan8989"><tspan  id="1688075462714-5868884_tspan8987" fontFamily="Helvetica LT Narrow">S</tspan></tspan></text></g></g></svg>
-            <p className="text-xl text-gray-400 mb-8" data-aos="fade-up" data-aos-delay="200">Ready to take advantage of Degen Plays without the high risk?</p>
-            <div className="max-w-xs mx-auto sm:max-w-none sm:flex sm:justify-center">
-              <div data-aos="fade-up" data-aos-delay="400">
-                <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" href="/ico">Buy DegenPlays</a>
-              </div>
-              <div data-aos="fade-up" data-aos-delay="600">
-                <a className="btn text-white bg-gray-700 hover:bg-gray-800 w-full sm:w-auto sm:ml-4" href="/howItWorks">Learn more</a>
-              </div>
-            </div>
+            <p className="text-xl text-gray-400 mb-8" data-aos="fade-up" data-aos-delay="200">Comunity made Stat tracking for The Money Tree</p>
+            
+            <Image className="mx-auto transition duration-150 ease-in-out" width="500" src={MoneyTree}  alt="Logo" />
+            <Link href="https://themoneytree.io/" className="text-xl text-purple-600 hover:text-gray-200 transition duration-150 ease-in-out">The Money Tree site</Link>
+            
           </div>
-          <Image className="md:max-w-none" src={Logo}  alt="Logo" />
-          
-
-          {/* <ModalVideo
-            thumb={VideoThumb}
-            thumbWidth={}
-            thumbHeight={576}
-            thumbAlt="Modal video thumbnail"
-            video="/videos/video.mp4"
-            videoWidth={1920}
-            videoHeight={1080} /> */}
-
         </div>
 
       </div>

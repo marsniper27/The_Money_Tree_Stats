@@ -10,9 +10,9 @@ import FAQs from '@/components/faqs'
 export default function Features() {
   return (
     <>
-      <Hero />
-      <Stats />
-      <FAQs/>
+      {/* <Hero /> */}
+      {/* <Stats />
+      <FAQs/> */}
     </>
   )
 }
