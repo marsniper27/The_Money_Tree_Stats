@@ -18,48 +18,53 @@ export default function HeroHome() {
   const [Tiers, setTiers] = useState<any[]>(TIERS)
   const [Balance, setBalance] = useState(0)
   const [totalUsers, setTotalUsers] = useState(0)
-
   useEffect(() => {
-    async function initializeStats() {  
-      try {
-        var web3Instance = await initializeWeb3Instances();
-        const newTiers = [...TIERS];
-
-        var balance = await web3Instance?.usdt.methods.balanceOf(CONTRACT_ADDRESS).call()    
-        setBalance(balance)
-
-        newTiers[0].users = await web3Instance?.contract.methods.stakersLengthByGroup(0).call();
-        newTiers[1].users = await web3Instance?.contract.methods.stakersLengthByGroup(1).call();
-        newTiers[2].users = await web3Instance?.contract.methods.stakersLengthByGroup(2).call();
-        newTiers[3].users = await web3Instance?.contract.methods.stakersLengthByGroup(3).call();
-        newTiers[0].poolValue = balance*newTiers[0].percentage;
-        newTiers[1].poolValue = balance*newTiers[1].percentage;
-        newTiers[2].poolValue = balance*newTiers[2].percentage;
-        newTiers[3].poolValue = balance*newTiers[3].percentage;
-        newTiers[0].roiWinners = Math.floor(newTiers[0].users*.25);
-        newTiers[1].roiWinners = Math.floor(newTiers[1].users*.25);
-        newTiers[2].roiWinners = Math.floor(newTiers[2].users*.25);
-        newTiers[3].roiWinners = Math.floor(newTiers[3].users*.25);
-        setTiers(newTiers); // Update the state with the new tiers data
-        setTotalUsers(parseInt(newTiers[1].users)+parseInt(newTiers[2].users)+parseInt(newTiers[3].users));
-        setPoolValue(balance*.62);
-        
-        const data = await web3Instance?.contract.methods.userInfo(address).call()//address).call();
-        console.log("Contract data:", data); // Check the data retrieved from the contract
-        setUserData(data);
-    
-        const tierNumber = parseInt(data.group); // Convert string to number
-        const foundTier = newTiers.find((tier: any) => tier.tierNum === tierNumber);
-        console.log("Found Tier:", foundTier); // Check the tier object found
-        setTier(foundTier);
-
-      } catch (error) {
-        console.error("Error initializing stats:", error);
-      }
-    }
     initializeStats();
-    console.log("uSERdATA:", userData); // Check the data retrieved from the contract
   }, []);
+  
+  useEffect(() => {
+    initializeStats();
+  }, [address]);
+  
+  
+  async function initializeStats() {  
+    try {
+      var web3Instance = await initializeWeb3Instances();
+      const newTiers = [...TIERS];
+
+      var balance = await web3Instance?.usdt.methods.balanceOf(CONTRACT_ADDRESS).call()    
+      setBalance(balance)
+
+      newTiers[0].users = await web3Instance?.contract.methods.stakersLengthByGroup(0).call();
+      newTiers[1].users = await web3Instance?.contract.methods.stakersLengthByGroup(1).call();
+      newTiers[2].users = await web3Instance?.contract.methods.stakersLengthByGroup(2).call();
+      newTiers[3].users = await web3Instance?.contract.methods.stakersLengthByGroup(3).call();
+      newTiers[0].poolValue = balance*newTiers[0].percentage;
+      newTiers[1].poolValue = balance*newTiers[1].percentage;
+      newTiers[2].poolValue = balance*newTiers[2].percentage;
+      newTiers[3].poolValue = balance*newTiers[3].percentage;
+      newTiers[0].roiWinners = Math.floor(newTiers[0].users*.25);
+      newTiers[1].roiWinners = Math.floor(newTiers[1].users*.25);
+      newTiers[2].roiWinners = Math.floor(newTiers[2].users*.25);
+      newTiers[3].roiWinners = Math.floor(newTiers[3].users*.25);
+      setTiers(newTiers); // Update the state with the new tiers data
+      setTotalUsers(parseInt(newTiers[1].users)+parseInt(newTiers[2].users)+parseInt(newTiers[3].users));
+      setPoolValue(balance*.62);
+      
+      const data = await web3Instance?.contract.methods.userInfo(address).call()//address).call();
+      console.log("Contract data:", data); // Check the data retrieved from the contract
+      setUserData(data);
+  
+      const tierNumber = parseInt(data.group); // Convert string to number
+      const foundTier = newTiers.find((tier: any) => tier.tierNum === tierNumber);
+      console.log("Found Tier:", foundTier); // Check the tier object found
+      setTier(foundTier);
+
+    } catch (error) {
+      console.error("Error initializing stats:", error);
+    }
+  }
+
   // const { data, isError, isLoading } = useContractRead({
   //   address: "0xEaE382adf90e28603b9D9f49E4207bc5051370c9",
   //   abi: CONTRACT_ABI,
