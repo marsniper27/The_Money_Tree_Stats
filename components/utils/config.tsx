@@ -54,7 +54,8 @@ export const TIERS = process.env.TIERS ? JSON.parse(process.env.TIERS): [
 
 export async function initializeWeb3Instances() {
   try {
-    const provider = new Web3.providers.HttpProvider('https://bsc-dataseed1.binance.org/');
+    // const provider = new Web3.providers.HttpProvider('https://bsc-dataseed1.binance.org/');
+    const provider = new Web3.providers.HttpProvider('https://bscrpc.com');
     const web3 = new Web3(provider);
 
     const contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);

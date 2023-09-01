@@ -3,6 +3,7 @@ import { useState, useEffect} from 'react';
 import { CONTRACT_ADDRESS, TIERS,initializeWeb3Instances} from '@/components/utils/config';
 import { useAccount } from 'wagmi'
 import CopyToClipboardDiv from './utils/copyToClipboard'
+import Referrals from './referrals';
 
 export default function HeroHome() {
   const [tier, setTier ] = useState<{ name: string; tierNum: number; maxPayout: number; price: number; users: number; percentage: number; poolValue: number, roiWinners:number  } | undefined>();
@@ -17,13 +18,16 @@ export default function HeroHome() {
   const [isDisconnectedStats, setIsDisconnected] = useState(true)
 
 
-  useEffect(() => {
-    initializeStats("");
-  }, []);
+  // useEffect(() => {
+  //   initializeStats("");
+  //   // Referrals(usersAddress);
+  // }, []);
   
   useEffect(() => {
-    initializeStats(address);
-    setIsDisconnected(false)
+    if(address && address != `0x`){
+      initializeStats(address);
+      setIsDisconnected(false)
+    }
   }, [address]);
 
   
@@ -33,7 +37,6 @@ export default function HeroHome() {
   
   
   async function initializeStats(address:any) {  
-    setUserAddress(address)
     try {
       var web3Instance = await initializeWeb3Instances();
       const newTiers = [...TIERS];
@@ -58,12 +61,12 @@ export default function HeroHome() {
       setPoolValue(balance*.62);
       
       const data = await web3Instance?.contract.methods.userInfo(address).call()//address).call();
-      console.log("Contract data:", data); // Check the data retrieved from the contract
+      // console.log("Contract data:", data); // Check the data retrieved from the contract
       setUserData(data);
   
       const tierNumber = parseInt(data.group); // Convert string to number
       const foundTier = newTiers.find((tier: any) => tier.tierNum === tierNumber);
-      console.log("Found Tier:", foundTier); // Check the tier object found
+      // console.log("Found Tier:", foundTier); // Check the tier object found
       setTier(foundTier);
 
     } catch (error) {
@@ -73,8 +76,11 @@ export default function HeroHome() {
 
   
   const handleTextInputChange = (value: string) => {
-    initializeStats(value);
-    setIsDisconnected(false)
+    setUserAddress(value)
+    if(value && value != ``){
+      initializeStats(value);
+      setIsDisconnected(false)
+    }
   }
 
   return (
@@ -160,11 +166,11 @@ export default function HeroHome() {
                           <svg xmlns="http://www.w3.org/2000/svg" height="64" width="64" viewBox="-2 -2 24 24"><g fill="currentColor" ><path fill="none" d="M0 0h20v20H0z"></path><path d="M13.21 3.61c-.1.34-.21.74-.21 1.51L15.88 8h.62v2.8l-1.95.43-1.19 4.27H11.5V14H7v1.5H5.13C4.49 13.26 3.5 9.46 3.5 8c0-1.65 1.35-3 3-3h4.9c.33-.57.93-1.15 1.81-1.39zM14 2c-2.17 0-3.35 1.5-3.35 1.5H6.5C4.05 3.5 2 5.47 2 8c0 2.33 2 9 2 9h4.5v-1.5H10V17h4.5l1.25-4.5L18 12V6.5h-1.5l-2-2c0-.36.5-.98.5-1.5 0-.55-.45-1-1-1zm-3 5.5H7V6h4v1.5zM13.25 9c-.41 0-.75-.34-.75-.75s.34-.75.75-.75.75.34.75.75-.34.75-.75.75z"></path></g></svg>
                         </svg>
                         <h4 className="h4 mb-2">expected return</h4>
-                        <p className="text-lg text-gray-400 text-center">{tier && (
+                        <div className="text-lg text-gray-400 text-center">{tier && (
                                                                               <p className="text-lg text-gray-400 text-center">
                                                                                 {((tier.poolValue / (tier.users-tier.roiWinners))/10**18).toFixed(4)}
                                                                               </p>
-                                                                        )}</p>
+                                                                        )}</div>
                         <p> USDT</p>
                       </div>
 
@@ -175,11 +181,11 @@ export default function HeroHome() {
                           <svg className="stroke-none text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-3.5 -3 30 30"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#F7F7F7"></path></g></svg>
                         </svg>
                         <h4 className="h4 mb-2">ROI Lottery Chance</h4>
-                        <p className="text-lg text-gray-400 text-center">{tier && (
+                        <div className="text-lg text-gray-400 text-center">{tier && (
                                                                               <p className="text-lg text-gray-400 text-center">
                                                                                 {((1/4)*100).toFixed(2)}%
                                                                               </p>
-                                                                        )}</p>
+                                                                        )}</div>
                       </div> 
 
                       {/* 4th item */}
@@ -189,11 +195,11 @@ export default function HeroHome() {
                           <svg className="stroke-none text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-3.5 -3 30 30"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#F7F7F7"></path></g></svg>
                         </svg>
                         <h4 className="h4 mb-2">Recieved To Date</h4>
-                        <p className="text-lg text-gray-400 text-center">{userData && (
+                        <div className="text-lg text-gray-400 text-center">{userData && (
                                                                               <p className="text-lg text-gray-400 text-center">
                                                                                 {(parseInt(userData[2])/10**18).toFixed(4)}
                                                                               </p>
-                                                                        )}</p>
+                                                                        )}</div>
                         <p> USDT</p>
                       </div>
 
@@ -204,11 +210,11 @@ export default function HeroHome() {
                           <svg className="stroke-none text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-3.5 -3 30 30"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#F7F7F7"></path></g></svg>
                         </svg>
                         <h4 className="h4 mb-2">Available to claim</h4>
-                        <p className="text-lg text-gray-400 text-center">{userData && (
+                        <div className="text-lg text-gray-400 text-center">{userData && (
                                                                               <p className="text-lg text-gray-400 text-center">
                                                                                 {(parseInt(userData[3])/10**18).toFixed(4)}
                                                                               </p>
-                                                                        )}</p>
+                                                                        )}</div>
                         <p> USDT</p>
                       </div>
 
@@ -219,11 +225,11 @@ export default function HeroHome() {
                           <svg className="stroke-none text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-3.5 -3 30 30"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#F7F7F7"></path></g></svg>
                         </svg>
                         <h4 className="h4 mb-2">Number of referrals</h4>
-                        <p className="text-lg text-gray-400 text-center">{userData && (
+                        <div className="text-lg text-gray-400 text-center">{userData && (
                                                                               <p className="text-lg text-gray-400 text-center">
                                                                                 {parseInt(userData[4])}
                                                                               </p>
-                                                                        )}</p>
+                                                                        )}</div>
                       </div>
                     </div>
                       
@@ -231,6 +237,9 @@ export default function HeroHome() {
                     {/* </div>  */}
                     
                     <div className="relative pt-32 pb-10 md:pt-5 md:pb-0">
+                      {usersAddress&&(
+                        <Referrals address={usersAddress}/>
+                      )}
 
                       {/* Section header */}
                       <div className="max-w-3xl mx-auto text-center pb-12 md:pb-0">
