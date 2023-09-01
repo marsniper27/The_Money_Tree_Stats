@@ -7,7 +7,7 @@ import CopyToClipboardDiv from './utils/copyToClipboard';
 
 export default function Ads() {
   return (
-    <div className="relative flex flex-col items-center w-full overflow-wrap break-word" >
+    <div className="relative flex flex-col items-center text-center w-full overflow-wrap break-word" >
       <h4 className="h4 mb-2 w-full break-word">Donation Address: </h4>
       <CopyToClipboardDiv text={"0xFBd8d20eF1999f52E799EFC1D77631B995a5dBB3"} />
       {/* <p>These are just here for now they will not be on live site!!</p> */}
