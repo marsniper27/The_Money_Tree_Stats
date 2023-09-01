@@ -1,5 +1,7 @@
 'use client'
 import { useState, useEffect, useRef} from 'react';
+import Cookies from 'js-cookie'; // Import the Cookies library
+
 
 import TreeDisplay from './tree'
 import Sidebar from './ui/sidebar';
@@ -13,6 +15,7 @@ export default function HeroFeatures() {
   const [tier, setTier] = useState('Leaves');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isMobileScreen, setIsMobileScreen] = useState<boolean>(false);
+  const [fetchedCookies, setFetchedCookies] = useState(false);
 
   const trigger = useRef<HTMLButtonElement>(null)
 
@@ -22,9 +25,28 @@ export default function HeroFeatures() {
     if(window.innerWidth < 768){
       setIsMobileScreen(true); // Adjust the breakpoint as needed
       }
-    console.log(window.innerWidth)
-    console.log(isMobileScreen)}
+    }
 
+    function getCookeis(){
+      const storedNumInputs = Cookies.get('numInputs');
+      if (storedNumInputs) {
+        setNumInputs(parseInt(storedNumInputs));
+      }
+
+      const storedInputValues = Cookies.get('inputValues');
+      if (storedInputValues) {
+        setInputValues(JSON.parse(storedInputValues));
+      }
+
+      const storedTrees = Cookies.get('trees');
+      if (storedTrees) {
+        setTrees(JSON.parse(storedTrees));
+      }
+      
+      setFetchedCookies(true)
+    }
+
+    getCookeis()
     setMobile()
   }, []);
 
@@ -62,6 +84,23 @@ export default function HeroFeatures() {
 
   //   reinvestWallet();
   // }, [reinvest]);
+
+  // Use useEffect to save cookies when values change
+  useEffect(() => {
+    function updateCookies() {
+      if(fetchedCookies){
+      // Save numInputs to a cookie
+      Cookies.set('numInputs', numInputs.toString());
+
+      // Save inputValues to a cookie
+      Cookies.set('inputValues', JSON.stringify(inputValues));
+
+      // Save trees to a cookie
+      Cookies.set('trees', JSON.stringify(trees));
+      }
+    }
+    updateCookies();
+  }, [numInputs, inputValues, trees]);
 
   return (
     <section className="relative">

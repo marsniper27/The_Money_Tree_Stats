@@ -29,8 +29,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose,mobile,trees,setTrees
       });
       return newInputValues;
     });
-    console.log("newInputValues")
-    console.log(newInputValues)
 
     const usedWallets = (trees.length*3)+1;
     const newTreeCount = Math.floor((value-1)/3)-trees.length;
@@ -51,20 +49,14 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose,mobile,trees,setTrees
               }];
               offset+=3;
             }
-            console.log(newTrees)
-            console.log(prevTrees)
             return [...prevTrees, ...newTrees];
           });
         }
     }
     else if(value < usedWallets){
       var currentTrees = trees;
-      console.log(trees)
-      console.log(currentTrees)
-      console.log(newTreeCount)
       if(newTreeCount < 0){
           currentTrees = trees.slice(0,currentTrees.length+(newTreeCount));
-        console.log(currentTrees)
         setTrees(currentTrees);
       }
     }
@@ -89,8 +81,6 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose,mobile,trees,setTrees
       newTrees = newTrees.map(x => (x.left === inputValues[index] ? { ...x, left: value } : x));
       newTrees = newTrees.map(x => (x.right === inputValues[index] ? { ...x, right: value } : x));
       newTrees = newTrees.map(x => (x.center === inputValues[index] ? { ...x, center: value } : x));
-      console.log("newTrees")
-      console.log(newTrees)
       setTrees(newTrees);
     }
   };
