@@ -9,6 +9,7 @@ export default function TokenStats() {
   const [Traderbalance, setTraderBalance] = useState(0)
   const [TraderAddress, setTraderAddress] = useState(0)
   const [poolValue, setPoolValue] = useState(0)
+  const [epochValue, setEpochValue] = useState(0)
   
   useEffect(() => {
     async function initializeStats() {
@@ -18,7 +19,13 @@ export default function TokenStats() {
       let curtotalInvested = 0;
       let allChainStats = [];
       const newTiers = [...TIERS];
+      const currentUnixTimestamp = Math.floor(Date.now() / 1000);
+      
+      var epoch = await web3Instance?.contract.methods.getEpoch(currentUnixTimestamp).call()  
 
+      var epochbalance = await web3Instance?.contract.methods.getEpochDepositAmount(epoch).call()    
+      setEpochValue(epochbalance)
+      
       var balance = await web3Instance?.usdt.methods.balanceOf(CONTRACT_ADDRESS).call()    
       setBalance(balance)
       
@@ -32,13 +39,13 @@ export default function TokenStats() {
       newTiers[1].users = await web3Instance?.contract.methods.stakersLengthByGroup(1).call();
       newTiers[2].users = await web3Instance?.contract.methods.stakersLengthByGroup(2).call();
       newTiers[3].users = await web3Instance?.contract.methods.stakersLengthByGroup(3).call();
-      newTiers[0].poolValue = balance*newTiers[0].percentage;
-      newTiers[1].poolValue = balance*newTiers[1].percentage;
-      newTiers[2].poolValue = balance*newTiers[2].percentage;
-      newTiers[3].poolValue = balance*newTiers[3].percentage;
+      newTiers[0].poolValue = epochbalance*newTiers[0].percentage;
+      newTiers[1].poolValue = epochbalance*newTiers[1].percentage;
+      newTiers[2].poolValue = epochbalance*newTiers[2].percentage;
+      newTiers[3].poolValue = epochbalance*newTiers[3].percentage;
       setTiers(newTiers); // Update the state with the new tiers data
       setTotalUsers(parseInt(newTiers[1].users)+parseInt(newTiers[2].users)+parseInt(newTiers[3].users));
-      setPoolValue(balance*.62);
+      setPoolValue(epochbalance*.62);
     }
   
     initializeStats();
@@ -92,6 +99,20 @@ export default function TokenStats() {
                 </svg>
                 <h4 className="h4 mb-2">Contract Balance</h4>
                 <p className="text-lg text-gray-400 text-center">{(Balance/10**18).toFixed(4)}</p><p> USDT</p>
+              </div>
+
+              
+              {/* 2nd item */}
+              <div className="relative flex flex-col items-center" data-aos="fade-up" data-aos-delay="200">
+                <div aria-hidden="true" className="absolute h-1 border-t border-dashed border-gray-700 hidden md:block" style={{ width: 'calc(100% - 32px)', left: 'calc(50% + 48px)', top: '32px' }} data-aos="fade-in" data-aos-delay="400"></div>
+                <svg className="w-16 h-16 mb-4" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+                  <rect className="fill-current text-purple-600" width="64" height="64" rx="32" />
+                  <g fill="none" fillRule="evenodd">
+                    <svg className="stroke-none text-purple-300" width="64" height="64" xmlns="http://www.w3.org/2000/svg" viewBox="-3.5 -3 30 30"><g fill="none" ><path d="M11.5 17.1c-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79z" fill="#F7F7F7"></path></g></svg>
+                  </g>
+                </svg>
+                <h4 className="h4 mb-2">Epoch Balance</h4>
+                <p className="text-lg text-gray-400 text-center">{(epochValue/10**18).toFixed(4)}</p><p> USDT</p>
               </div>
 
               {/* 3rd item */}
