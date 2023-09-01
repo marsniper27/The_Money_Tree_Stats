@@ -103,16 +103,22 @@ export default function HeroFeatures() {
   }, [numInputs, inputValues, trees]);
 
   return (
-    <section className="relative">
+    <section className="relative" >
       <div className="flex pt-32">
         {/* <Sidebar/> */}
         {isMobileScreen &&(
           <button
             ref={trigger}
-            className={`hamburger ${isSidebarOpen && isMobileScreen && 'active'}`}
+            className={`hamburger  ${isSidebarOpen && isMobileScreen && 'active'}`}
             aria-controls="mobile-nav"
             aria-expanded={isSidebarOpen}
-            onClick={toggleSidebar}
+            onClick={toggleSidebar} 
+            style={{
+              position: 'fixed',   // Set position to fixed
+              top: '50vh',         // Adjust the desired top spacing
+              left: '2px',        // Adjust the desired left spacing
+              zIndex: 1000,        // Set a high z-index to ensure it's above other content
+            }}
           >
             <span className="sr-only">Menu</span>
             <svg
@@ -127,7 +133,7 @@ export default function HeroFeatures() {
           </button>
         )}
         <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} mobile={isMobileScreen} trees={trees} setTrees={setTrees} inputValues={inputValues} setInputValues={setInputValues} setNumInputs={setNumInputs} numInputs={numInputs}/>
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative" style={{left:'200px', maxWidth: "100%-200px", minWidth:"calc(100%-300px)"}}>
         {/* Hero content */}
         <div className="relative pb-12 md:pb-20">
           {/* Content */}

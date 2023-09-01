@@ -137,8 +137,10 @@
 }
 
 .sidebar-desktop {
+    position: fixed;
     max-width: 300px; /* Adjust as needed */
     min-width: 200px;
+    top: 10vh;
     height: 65vh; /* Set the sidebar's height to 100% of the viewport height */
     overflow-y: auto; /* Enable vertical scrolling when content overflows */
     background-color: #1a1919; /* Sidebar background color */
