@@ -28,20 +28,21 @@ export default function HeroFeatures() {
     }
 
     function getCookeis(){
-      const storedNumInputs = Cookies.get('numInputs');
-      if (storedNumInputs) {
-        setNumInputs(parseInt(storedNumInputs));
-      }
+      // const storedNumInputs = Cookies.get('numInputs');
+      // if (storedNumInputs) {
+      //   setNumInputs(parseInt(storedNumInputs));
+      // }
 
       const storedInputValues = Cookies.get('inputValues');
       if (storedInputValues) {
+        setNumInputs(JSON.parse(storedInputValues).length);
         setInputValues(JSON.parse(storedInputValues));
       }
 
-      const storedTrees = Cookies.get('trees');
-      if (storedTrees) {
-        setTrees(JSON.parse(storedTrees));
-      }
+      // const storedTrees = Cookies.get('trees');
+      // if (storedTrees) {
+      //   setTrees(JSON.parse(storedTrees));
+      // }
       
       setFetchedCookies(true)
     }
@@ -90,13 +91,13 @@ export default function HeroFeatures() {
     function updateCookies() {
       if(fetchedCookies){
       // Save numInputs to a cookie
-      Cookies.set('numInputs', numInputs.toString());
+      // Cookies.set('numInputs', numInputs.toString());
 
       // Save inputValues to a cookie
       Cookies.set('inputValues', JSON.stringify(inputValues));
 
       // Save trees to a cookie
-      Cookies.set('trees', JSON.stringify(trees));
+      // Cookies.set('trees', JSON.stringify(trees));
       }
     }
     updateCookies();
@@ -106,7 +107,7 @@ export default function HeroFeatures() {
     <section className="relative pt-32" >
       {/* <div className="flex pt-32"> */}
         {/* <Sidebar/> */}
-        <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} mobile={isMobileScreen} trees={trees} setTrees={setTrees} inputValues={inputValues} setInputValues={setInputValues} setNumInputs={setNumInputs} numInputs={numInputs}/>
+        <Sidebar isOpen={isSidebarOpen} onClose={toggleSidebar} mobile={isMobileScreen} trees={trees} setTrees={setTrees} inputValues={inputValues} setInputValues={setInputValues} setNumInputs={setNumInputs} numInputs={numInputs} fetchedCookies={fetchedCookies}/>
         {isMobileScreen ?(
           <div>
             <button

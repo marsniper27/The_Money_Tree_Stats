@@ -11,16 +11,19 @@ interface SidebarProps {
   setInputValues:React.Dispatch<React.SetStateAction<Array<string>>>;
   trees: Array<{ top: string; left: string; center: string; right: string }>; // Replace TreeType with the actual type of your tree objects33
   setTrees: React.Dispatch<React.SetStateAction<Array<{ top: string; left: string; center: string; right: string }>>>; // Replace TreeType with the actual type of your tree objects
+  fetchedCookies:boolean;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose,mobile,trees,setTrees,inputValues,setInputValues,setNumInputs,numInputs }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose,mobile,trees,setTrees,inputValues,setInputValues,setNumInputs,numInputs,fetchedCookies }) => {
+  const numInputsRef = useRef<HTMLInputElement | null>(null);
 
   const handleNumInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(event.target.value);
     setNumInputs(value);
   };
 
-  const handleInputBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+  const handleInputBlur = (event: React.FocusEvent<HTMLInputElement>) => { 
+    console.log('handleInputBlur called');
     const value = parseInt(event.target.value);
     const newInputValues = Array.from({ length: value }, (_, i) => {if(inputValues.length-1 < i){return(`Wallet ${i + 1}`)} else{return(inputValues[i])}})
     setInputValues((prevInputValues) => {
@@ -84,6 +87,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose,mobile,trees,setTrees
       setTrees(newTrees);
     }
   };
+
+  useEffect(() => {
+    if (fetchedCookies && numInputsRef.current) {
+      numInputsRef.current.focus()
+      setTimeout(() => {
+        if (numInputsRef.current){
+          numInputsRef.current.blur();
+        }
+      }, 5);
+    }
+  }, [fetchedCookies]);
   
   return (
     <div>
@@ -92,13 +106,17 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose,mobile,trees,setTrees
           <h2 className="text-lg font-semibold mb-2">Not Mobile</h2>
           <h2 className="text-lg font-semibold mb-2">Number of Wallets</h2>
           <input
+            ref={numInputsRef}
             type="number"
             className="w-full border border-gray-300 rounded px-2 py-1 mb-2 dark-font-color"
             placeholder="Enter a number"
             value={numInputs}
             min = {4}
             onChange={handleNumInputChange}
-            onBlur={(event) => handleInputBlur(event)}
+            onBlur={(event) => {
+              console.log('Blur event triggered.');
+              handleInputBlur(event);
+            }}
             onKeyDown={(event) => handleKeyDown(event)}
           />
           <h2 className="text-lg font-semibold mb-2">Wallet address</h2>
