@@ -118,14 +118,47 @@
     background-color: #f0f0f0;
   }
 
-  .sidebar {
+.sidebar {
     width: 25%; /* Adjust as needed */
+    min-width: 200px;
     height: 65vh; /* Set the sidebar's height to 100% of the viewport height */
     overflow-y: auto; /* Enable vertical scrolling when content overflows */
     background-color: #1a1919; /* Sidebar background color */
     padding: 16px; /* Add some padding for spacing */
-  }
 
-  .dark-font-color {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Initially off-screen on the left */
+    width: 250px; /* Adjust the width as needed */
+    height: 100%;
+    background-color: #333;
+    z-index: 1000;
+    transition: left 0.3s ease-in-out;
+}
+
+.sidebar-desktop {
+    max-width: 300px; /* Adjust as needed */
+    min-width: 200px;
+    height: 65vh; /* Set the sidebar's height to 100% of the viewport height */
+    overflow-y: auto; /* Enable vertical scrolling when content overflows */
+    background-color: #1a1919; /* Sidebar background color */
+    padding: 16px; /* Add some padding for spacing */
+}
+
+.dark-font-color {
     color: #333; /* Use the color code you prefer */
-  }
+}
+
+.open {
+    left: 0; /* Move the sidebar in when open */
+}
+  
+.sidebar-overlay {
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent overlay */
+z-index: 999; /* Place the overlay below the sidebar */
+}

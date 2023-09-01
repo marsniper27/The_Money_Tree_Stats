@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect} from 'react';
-import { CONTRACT_ADDRESS, CONTRACT_ABI,TIERS,initializeWeb3Instances} from '@/components/utils/config';
-import { useAccount,useContractRead  } from 'wagmi'
+import { CONTRACT_ADDRESS, TIERS,initializeWeb3Instances} from '@/components/utils/config';
+import { useAccount } from 'wagmi'
 import CopyToClipboardDiv from './utils/copyToClipboard'
 
 export default function HeroHome() {
@@ -9,7 +9,7 @@ export default function HeroHome() {
   const [poolValue, setPoolValue ] = useState(0)
   const [userData, setUserData ] = useState<Array<any> | null>(null);
   const [userTokensPrice, setUserTokensPrice ] = useState(0)
-  const { address, isConnecting, isDisconnected } = useAccount()
+  const { address, isConnecting, isDisconnected, } = useAccount()
   const [Tiers, setTiers] = useState<any[]>(TIERS)
   const [Balance, setBalance] = useState(0)
   const [totalUsers, setTotalUsers] = useState(0)

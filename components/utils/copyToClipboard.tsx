@@ -21,7 +21,7 @@ const CopyToClipboardDiv: React.FC<CopyToClipboardDivProps> = ({ text }) => {
 
 
   return (
-    <div style={{ cursor: 'pointer' }}>
+    <div className="h4 mb-2 w-full" style={{ cursor: 'pointer' }}>
       <div onClick={copyToClipboard}>
         <h4 className="h4 mb-2">Click to Copy: {text}</h4>
       </div>

@@ -226,7 +226,7 @@ export default function MobileMenu() {
             </Link>
           </li>
           <li>
-            <Link href="/generator" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
+            <Link href="/treeGenerator" className="flex text-gray-300 hover:text-gray-200 py-2" onClick={() => setMobileNavOpen(false)}>
               Tree Generator
             </Link>
           </li>
@@ -245,9 +245,9 @@ export default function MobileMenu() {
             </div>
              ) : (
               <div>
-              <li data-aos="fade-up" data-aos-delay="400">
+              {/* <li data-aos="fade-up" data-aos-delay="400">
                   <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={() => connectWallet("metamask")}>MetaMask</a>
-              </li>
+              </li> */}
               <li data-aos="fade-up" data-aos-delay="400">
                 {/* <a className="btn text-white bg-purple-600 hover:bg-purple-700 w-full mb-4 sm:w-auto sm:mb-0" onClick={() => connectWallet("walletconnect")}>WalletConnect</a> */}
                 <Web3Button />
