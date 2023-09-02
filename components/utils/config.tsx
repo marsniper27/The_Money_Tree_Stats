@@ -14,40 +14,56 @@ export const TIERS = process.env.TIERS ? JSON.parse(process.env.TIERS): [
     "tierNum": 0,
     "maxPayout": 0,
     "price": 0,
-    "users":0,
+    "users":11,
+    "epochUsers":11,
     "percentage":0.30,
     "poolValue":0,
-    "roiWinners":0
+    "roiWinners":0,
+    "roiPayout":0,
+    "returnPerUser":0,
+    "distributionValue":0,
   },
   {
     "name": "Branch",
     "tierNum": 1,
     "maxPayout": 3500*4,
     "price": 3500,
-    "users":0,
+    "users":26,
+    "epochUsers":11,
     "percentage":0.26,
     "poolValue":0,
-    "roiWinners":0
+    "roiWinners":0,
+    "roiPayout":0,
+    "returnPerUser":0,
+    "distributionValue":0
   },
   {
     "name": "Stalk",
     "tierNum": 2,
     "maxPayout": 1500*3,
     "price": 1500,
-    "users":0,
+    "users":27,
+    "epochUsers":11,
     "percentage":0.18,
     "poolValue":0,
-    "roiWinners":0
+    "roiWinners":0,
+    "roiPayout":0,
+    "returnPerUser":0,
+    "distributionValue":0
   },
   {
     "name": "Leaves",
     "tierNum": 3,
     "maxPayout": 100*2,
     "price": 100,
-    "users":0,
+    "users":307,
+    "epochUsers":11,
     "percentage":0.13,
     "poolValue":0,
-    "roiWinners":0
+    "roiWinners":0,
+    "roiPayout":0,
+    "returnPerUser":0,
+    "distributionValue":0
   },
 ];
 

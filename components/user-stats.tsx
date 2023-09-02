@@ -6,7 +6,7 @@ import CopyToClipboardDiv from './utils/copyToClipboard'
 import Referrals from './referrals';
 
 export default function HeroHome() {
-  const [tier, setTier ] = useState<{ name: string; tierNum: number; maxPayout: number; price: number; users: number; percentage: number; poolValue: number, roiWinners:number  } | undefined>();
+  const [tier, setTier ] = useState<any[]>(TIERS);
   const [poolValue, setPoolValue ] = useState(0)
   const [userData, setUserData ] = useState<Array<any> | null>(null);
   const [userTokensPrice, setUserTokensPrice ] = useState(0)
@@ -16,6 +16,7 @@ export default function HeroHome() {
   const [totalUsers, setTotalUsers] = useState(0)
   const [usersAddress, setUserAddress] = useState("")
   const [isDisconnectedStats, setIsDisconnected] = useState(true)
+  const [epochValue, setEpochValue] = useState(0)
 
 
   // useEffect(() => {
@@ -40,22 +41,49 @@ export default function HeroHome() {
     try {
       var web3Instance = await initializeWeb3Instances();
       const newTiers = [...TIERS];
+      const currentUnixTimestamp = Math.floor(Date.now() / 1000);
 
+      var epoch = await web3Instance?.contract.methods.getEpoch(currentUnixTimestamp).call()  
+
+      var epochbalance = await web3Instance?.contract.methods.getEpochDepositAmount(epoch).call()    
+      setEpochValue(epochbalance)
+      
       var balance = await web3Instance?.usdt.methods.balanceOf(CONTRACT_ADDRESS).call()    
       setBalance(balance)
 
-      newTiers[0].users = await web3Instance?.contract.methods.stakersLengthByGroup(0).call();
-      newTiers[1].users = await web3Instance?.contract.methods.stakersLengthByGroup(1).call();
-      newTiers[2].users = await web3Instance?.contract.methods.stakersLengthByGroup(2).call();
-      newTiers[3].users = await web3Instance?.contract.methods.stakersLengthByGroup(3).call();
-      newTiers[0].poolValue = balance*newTiers[0].percentage;
-      newTiers[1].poolValue = balance*newTiers[1].percentage;
-      newTiers[2].poolValue = balance*newTiers[2].percentage;
-      newTiers[3].poolValue = balance*newTiers[3].percentage;
-      newTiers[0].roiWinners = Math.floor(newTiers[0].users*.25);
-      newTiers[1].roiWinners = Math.floor(newTiers[1].users*.25);
-      newTiers[2].roiWinners = Math.floor(newTiers[2].users*.25);
-      newTiers[3].roiWinners = Math.floor(newTiers[3].users*.25);
+      
+      for(var x = 0; x<TIERS.length; x++){
+        newTiers[x].users = await web3Instance?.contract.methods.stakersLengthByGroup(x).call();
+        newTiers[x].epochusers = await web3Instance?.contract.methods.getEpochUsersByGroup(x).call();
+        newTiers[x].epochusers = newTiers[x].epochusers.length;
+        newTiers[x].poolValue = parseInt(epochbalance)*newTiers[x].percentage;
+        const maxRoiPayout = newTiers[x].poolValue*3/4;
+        const maxRoiWinners = Math.floor(maxRoiPayout/(newTiers[x].price*10**18));
+        console.log("maxRoiWinners: ",maxRoiWinners)
+        console.log("(newTiers[x].epochusers/4): ",(newTiers[x].epochusers/4))
+        newTiers[x].roiWinners = (maxRoiWinners > (newTiers[x].epochusers/4))? Math.floor(newTiers[x].epochusers/4) : maxRoiWinners;
+        newTiers[x].roiPayout = newTiers[x].roiWinners*(newTiers[x].price*10**18) ;
+        newTiers[x].distributionValue = newTiers[x].poolValue -  newTiers[x].roiPayout;
+        console.log("epochusers: ",newTiers[x].epochusers)
+        console.log("roiWinners: ",newTiers[x].roiWinners)
+        console.log("poolValue: ",newTiers[x].poolValue/10**18)
+        console.log("roiPayout: ",newTiers[x].roiPayout/10**18)
+        console.log("distributionValue: ",newTiers[x].distributionValue/10**18)
+        newTiers[x].returnPerUser = newTiers[x].distributionValue/((parseInt(newTiers[x].users))-newTiers[x].roiWinners);
+    }
+
+      // newTiers[0].users = await web3Instance?.contract.methods.stakersLengthByGroup(0).call();
+      // newTiers[1].users = await web3Instance?.contract.methods.stakersLengthByGroup(1).call();
+      // newTiers[2].users = await web3Instance?.contract.methods.stakersLengthByGroup(2).call();
+      // newTiers[3].users = await web3Instance?.contract.methods.stakersLengthByGroup(3).call();
+      // newTiers[0].poolValue = balance*newTiers[0].percentage;
+      // newTiers[1].poolValue = balance*newTiers[1].percentage;
+      // newTiers[2].poolValue = balance*newTiers[2].percentage;
+      // newTiers[3].poolValue = balance*newTiers[3].percentage;
+      // newTiers[0].roiWinners = Math.floor(newTiers[0].users*.25);
+      // newTiers[1].roiWinners = Math.floor(newTiers[1].users*.25);
+      // newTiers[2].roiWinners = Math.floor(newTiers[2].users*.25);
+      // newTiers[3].roiWinners = Math.floor(newTiers[3].users*.25);
       setTiers(newTiers); // Update the state with the new tiers data
       setTotalUsers(parseInt(newTiers[1].users)+parseInt(newTiers[2].users)+parseInt(newTiers[3].users));
       setPoolValue(balance*.62);
@@ -168,7 +196,7 @@ export default function HeroHome() {
                         <h4 className="h4 mb-2">expected return</h4>
                         <div className="text-lg text-gray-400 text-center">{tier && (
                                                                               <p className="text-lg text-gray-400 text-center">
-                                                                                {((tier.poolValue / (tier.users-tier.roiWinners))/10**18).toFixed(4)}
+                                                                                {((tier.returnPerUser)/10**18).toFixed(4)}
                                                                               </p>
                                                                         )}</div>
                         <p> USDT</p>
