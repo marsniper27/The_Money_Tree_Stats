@@ -5,13 +5,28 @@ import { useAccount } from 'wagmi'
 import CopyToClipboardDiv from './utils/copyToClipboard'
 import Referrals from './referrals';
 
+interface Tier {
+  name: string;
+  tierNum: number;
+  maxPayout: number;
+  price: number;
+  users: number;
+  epochUsers: number;
+  percentage: number;
+  poolValue: number;
+  roiWinners: number;
+  roiPayout: number;
+  returnPerUser: number;
+  distributionValue: number;
+}
+
 export default function HeroHome() {
-  const [tier, setTier ] = useState<any[]>(TIERS);
+  const [tier, setTier ] = useState<Tier>(TIERS);
   const [poolValue, setPoolValue ] = useState(0)
   const [userData, setUserData ] = useState<Array<any> | null>(null);
   const [userTokensPrice, setUserTokensPrice ] = useState(0)
   const { address, isConnecting, isDisconnected, } = useAccount()
-  const [Tiers, setTiers] = useState<any[]>(TIERS)
+  const [Tiers, setTiers] = useState<Tier[]>(TIERS)
   const [Balance, setBalance] = useState(0)
   const [totalUsers, setTotalUsers] = useState(0)
   const [usersAddress, setUserAddress] = useState("")
